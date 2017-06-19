@@ -1,0 +1,29 @@
+{% extends "LouvreBookingBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Réservation{% endblock %}
+	
+{% block body %}
+
+	{% for flashMessage in app.session.flashbag.get('success') %}
+	<div class="alert alert-success">
+		{{ flashMessage }}
+	</div>
+	{% endfor %}
+	
+		<h1>Bienvenue sur la billetterie en ligne du musée du Louvre</h1>
+
+		<p>Premier formulaire a placer ici avec: </p>
+			<ul>
+				<li>Date de visite</li>
+				<li>Type de billet</li>
+				<li>nombre de billets</li>
+				<li>Coordonnees de contact (nom, prenom, email)</li>
+			</ul>
+
+		<h3>Formulaire Reservation</h3>
+
+		<div class="well">
+		  {{ form(form) }}
+		</div>
+
+{% endblock %}

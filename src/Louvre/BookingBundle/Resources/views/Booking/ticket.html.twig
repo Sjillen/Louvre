@@ -1,0 +1,23 @@
+{% extends "LouvreBookingBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Tickets{% endblock %}
+	
+{% block body %}
+		<h1>Bienvenue sur la billetterie en ligne du musée du Louvre</h1>
+
+		<p>Deuxieme formulaire a placer ici avec: </p>
+			<ul>
+				<li>1 formulaire par ticket sélectionné</li>
+				<li>nom, prénom, pays</li>
+				<li>âge</li>
+				<li>Discount</li>
+			</ul>
+
+		<h3>Formulaire ticket</h3>
+
+		<div class="well">
+		  {{ form(form) }}
+		</div>
+
+		
+{% endblock %}

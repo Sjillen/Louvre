@@ -1,0 +1,7 @@
+louvre_booking_home:
+    path: /
+    defaults: { _controller: LouvreBookingBundle:Booking:index }
+
+louvre_booking_ticket:
+    path: /ticket
+    defaults: { _controller: LouvreBookingBundle:Booking:ticket }
