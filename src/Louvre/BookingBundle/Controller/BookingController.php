@@ -4,11 +4,14 @@ namespace Louvre\BookingBundle\Controller;
 
 use Louvre\BookingBundle\Entity\Booking;
 use Louvre\BookingBundle\Entity\Ticket;
+use Louvre\BookingBundle\Entity\Billet;
 use Louvre\BookingBundle\Form\BookingType;
-use Louvre\BookingBundle\Form\TicketType;
+use Louvre\BookingBundle\Form\BilletType;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 
@@ -17,14 +20,16 @@ class BookingController extends Controller
 {
 	public function indexAction(Request $request)
 	{
+		
+		$session = $request->getSession();
+		
 		$booking = new Booking();
+
 
 		$form = $this->createForm(BookingType::class, $booking);
 
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-			$em = $this->getDoctrine()->getManager();
-			$em->persist($booking);
-			$em->flush();
+			$session->set('booking', $booking);
 
 			return $this->redirectToRoute('louvre_booking_ticket');
 
@@ -37,16 +42,26 @@ class BookingController extends Controller
 
 	public function ticketAction(Request $request)
 	{
-		$ticket = new Ticket();
+		$billet = new Billet();
+		$booking = $request->getSession()->get('booking');
+		
+		$nbTickets = $booking->getNbTickets();
+		$reference = $booking->getReference();
+		$tickets = array();
+		for ($i = 1; $i <= $nbTickets; $i++)
+		{		
+			$tickets[$i] = new Ticket();
+			$tickets[$i]->setReference($reference);
+			$billet->getTickets()->add($tickets[$i]);
+		}
 
-		$form = $this->createForm(TicketType::class, $ticket);
+		$form = $this->createForm(BilletType::class, $billet);
 
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-			$em = $this->getDoctrine()->getManager();
-			$em->persist($ticket);
-			$em->flush();
 
-			return $this->redirectToRoute('louvre_booking_index');
+			$request->getSession()->set('tickets', $tickets);
+
+			return $this->redirectToRoute('louvre_booking_review');
 
 			$request->getSession()->getFlashBag()->add('success','Votre reservation a bien ete prise en compte.');
 
@@ -54,6 +69,20 @@ class BookingController extends Controller
 
 		return $this->render('LouvreBookingBundle:Booking:ticket.html.twig', array(
 			'form' => $form->createView(),
+			'booking' => $booking,
 			));
+	}
+
+	public function recapAction(Request $request)
+	{
+		$session = $request->getSession();
+
+		$booking = $session->get('booking');
+		$tickets = $session->get('tickets');
+
+		return $this->render('LouvreBookingBundle:Booking:recap.html.twig', array(
+			'booking' => $booking,
+			'tickets' => $tickets,
+		));
 	}
 }

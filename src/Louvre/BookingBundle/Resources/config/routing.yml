@@ -5,3 +5,7 @@ louvre_booking_home:
 louvre_booking_ticket:
     path: /ticket
     defaults: { _controller: LouvreBookingBundle:Booking:ticket }
+
+louvre_booking_review:
+    path: /recap
+    defaults: { _controller: LouvreBookingBundle:Booking:recap }

@@ -22,7 +22,7 @@ class Booking
     private $id;
 
     /**
-     * @var \DateTime
+     * @var \Datetime
      *
      * @ORM\Column(name="date", type="datetime")
      */
@@ -31,7 +31,7 @@ class Booking
     /**
      * @var bool
      *
-     * @ORM\Column(name="type", type="boolean")
+     * @ORM\Column(name="type", type="string", length=255)
      */
     private $type;
 
@@ -88,7 +88,7 @@ class Booking
     /**
      * Set date
      *
-     * @param \DateTime $date
+     * @param \Datetime $date
      *
      * @return Booking
      */
@@ -102,7 +102,7 @@ class Booking
     /**
      * Get date
      *
-     * @return \DateTime
+     * @return \Datetime
      */
     public function getDate()
     {

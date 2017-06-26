@@ -3,6 +3,9 @@
 	<head>
 		<meta charset="utf-8">
 		<title>{% block title %}Billetterie du Louvre{% endblock %}</title>
+		<link href="{{ asset('assets/lib/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+		<link rel="stylesheet" href="{{ asset('assets/lib/jquery-ui/jquery-ui.min.css') }}">
+		
 	</head>
 
 	<body>
@@ -10,5 +13,13 @@
 		{% block body %}
 		{% endblock %}
 		
+	
+		<!-- jQuery -->
+    <script src="{{ asset('assets/lib/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/lib/jquery-ui/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('assets/lib/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/js/louvre.js') }}"></script>
 	</body>
+
+
 </html>

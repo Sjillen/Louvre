@@ -1,0 +1,32 @@
+{% extends 'LouvreBookingBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} - Recapitulatif{% endblock %}
+	
+{% block body %}
+		<h1>Bienvenue sur la billetterie en ligne du musée du Louvre</h1>
+
+	{% for flashMessage in app.session.flashbag.get('success') %}
+	<div class="alert alert-success">
+		{{ flashMessage }}
+	</div>
+	{% endfor %}
+
+	<div>
+		<p>Details de la commande a placer ici a placer ici: </p>
+			
+			<p>Informations de reservation</p>
+
+			{{ booking.reference }}
+			{{ booking.email }}
+			{{ booking.date|date('d/m/Y') }}
+
+			<p>Informations tickets</p>
+
+			{% for ticket in tickets %}
+				{{ ticket.firstName }}
+				{{ ticket.lastName }}
+				{{ ticket.age|date('d/m/Y') }}
+				{{ ticket.country }}
+			{% endfor %}
+	</div>
+{% endblock %}

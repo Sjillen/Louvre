@@ -43,9 +43,9 @@ class Ticket
     private $lastName;
 
     /**
-     * @var int
+     * @var \Datetime
      *
-     * @ORM\Column(name="age", type="integer")
+     * @ORM\Column(name="age", type="datetime")
      */
     private $age;
 
@@ -149,7 +149,7 @@ class Ticket
     /**
      * Set age
      *
-     * @param integer $age
+     * @param \Datetime $age
      *
      * @return Ticket
      */
@@ -163,7 +163,7 @@ class Ticket
     /**
      * Get age
      *
-     * @return int
+     * @return \Datetime
      */
     public function getAge()
     {
