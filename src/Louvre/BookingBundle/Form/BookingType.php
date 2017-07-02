@@ -33,6 +33,7 @@ class BookingType extends AbstractType
                 'choices' => array('Journée' => 'Journée', 'Demi-journée' => 'Demi-journée'),
                 'expanded' => true,
                 'multiple' => false,
+                'data' => 'Demi-journée',
                 ))
             ->add('email', EmailType::class)
             ->add('firstName', TextType::class)

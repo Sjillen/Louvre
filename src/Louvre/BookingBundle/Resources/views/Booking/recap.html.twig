@@ -23,10 +23,28 @@
 			<p>Informations tickets</p>
 
 			{% for ticket in tickets %}
+			
 				{{ ticket.firstName }}
 				{{ ticket.lastName }}
 				{{ ticket.age|date('d/m/Y') }}
 				{{ ticket.country }}
+				{{ ticket.price }}
+			
 			{% endfor %}
 	</div>
+	<form action="/Louvre/web/app_dev.php/booking/confirm" method="POST">
+	<script
+	  src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+	  data-key="pk_test_vNhMdEktJ8nxWDjERI7xTVDY"
+	  data-amount="3000"
+	  data-name="Musée du Louvre"
+	  data-description="Billetterie en ligne du musée du Louvre"
+	  data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+	  data-locale="auto"
+	  data-currency="eur"
+	  data-email= {{ booking.email }} >
+	</script>
+	</form>
+
+
 {% endblock %}

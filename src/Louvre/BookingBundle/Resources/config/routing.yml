@@ -9,3 +9,11 @@ louvre_booking_ticket:
 louvre_booking_review:
     path: /recap
     defaults: { _controller: LouvreBookingBundle:Booking:recap }
+
+louvre_booking_payement:
+    path: /order
+    defaults: { _controller: LouvreBookingBundle:Booking:order }
+
+louvre_booking_confirm:
+    path: /confirm
+    defaults: { _controller: LouvreBookingBundle:Booking:confirm }

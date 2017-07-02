@@ -7,6 +7,7 @@ use Louvre\BookingBundle\Entity\Ticket;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -29,7 +30,11 @@ class TicketType extends AbstractType
             ->add('country', CountryType::class)
             ->add('discount', CheckboxType::class, array(
                 'required' => false,
-            ));
+            ))
+            ->add('price', IntegerType::class, array(
+                'data' => 16,
+                'attr' => ['disabled' => true],
+                ));
     }
     
     /**

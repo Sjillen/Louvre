@@ -18,7 +18,26 @@
 		<h3>Formulaire ticket</h3>
 
 		<div class="well">
-		  {{ form(form) }}
+		  {{ form_start(form) }}
+
+		  
+
+		  	{% for ticket in form.tickets %}
+		  
+		  		<div class="well">
+			  		<ul class="tickets">
+				  		<li>{{ form_row(ticket.firstName) }}</li>
+				  		<li>{{ form_row(ticket.lastName) }}</li>
+				  		<li>{{ form_row(ticket.age) }}</li>
+				  		<li>{{ form_row(ticket.country) }}</li>
+				  		<li>{{ form_row(ticket.discount) }}</li>
+				  		<li>{{ form_row(ticket.price) }}</li>
+			  		</ul>
+		  		</div>
+		  	{% endfor %}
+		    
+		  
+		  {{ form_end(form) }}
 		</div>
 
 		

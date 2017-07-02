@@ -63,6 +63,18 @@ class Ticket
      */
     private $discount;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="price", type="integer")
+     */
+    private $price;
+
+
+    public function __construct()
+    {
+        $this->price = 16;
+    }
 
     /**
      * Get id
@@ -163,7 +175,7 @@ class Ticket
     /**
      * Get age
      *
-     * @return \Datetime
+     * @return integer
      */
     public function getAge()
     {
@@ -217,5 +229,28 @@ class Ticket
     {
         return $this->discount;
     }
-}
 
+    /**
+     * Set price
+     *
+     * @param integer $price
+     *
+     * @return Ticket
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get price
+     *
+     * @return integer
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+}

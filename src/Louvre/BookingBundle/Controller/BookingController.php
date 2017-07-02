@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 
+use Symfony\Component\Validator\Constraints\DateTime;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 
@@ -22,7 +24,7 @@ class BookingController extends Controller
 	{
 		
 		$session = $request->getSession();
-		
+		date_default_timezone_set('Europe/Paris');
 		$booking = new Booking();
 
 
@@ -44,22 +46,63 @@ class BookingController extends Controller
 	{
 		$billet = new Billet();
 		$booking = $request->getSession()->get('booking');
+
 		
+
 		$nbTickets = $booking->getNbTickets();
+
 		$reference = $booking->getReference();
+
+		
+
 		$tickets = array();
 		for ($i = 1; $i <= $nbTickets; $i++)
 		{		
 			$tickets[$i] = new Ticket();
 			$tickets[$i]->setReference($reference);
+
 			$billet->getTickets()->add($tickets[$i]);
 		}
 
 		$form = $this->createForm(BilletType::class, $billet);
+		
 
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 
 			$request->getSession()->set('tickets', $tickets);
+			$tickets = $request->getSession()->get('tickets');
+
+			$date1 = new \Datetime('now');
+
+			for ($i = 1; $i <= $nbTickets; $i++)
+			{
+      			$birthdate = $tickets[$i]->getAge();
+
+				$diff = date_diff($birthdate, $date1);
+				$age = (int) $diff->format("%a");
+				$age /= 365.25;
+
+				
+				if ($age < 4)
+				{
+					$tickets[$i]->setPrice(0);
+				}
+				elseif ($age >= 4 && $age <= 12 ) 
+				{
+					$tickets[$i]->setPrice(8);
+				}
+				elseif ($age >= 60) 
+				{
+					$tickets[$i]->setPrice(12);
+				}
+				elseif($tickets[$i]->getDiscount())
+				{
+					$tickets[$i]->setPrice(10);
+				}
+				
+			}
+			
+			
 
 			return $this->redirectToRoute('louvre_booking_review');
 
@@ -70,6 +113,8 @@ class BookingController extends Controller
 		return $this->render('LouvreBookingBundle:Booking:ticket.html.twig', array(
 			'form' => $form->createView(),
 			'booking' => $booking,
+
+			
 			));
 	}
 
@@ -79,10 +124,17 @@ class BookingController extends Controller
 
 		$booking = $session->get('booking');
 		$tickets = $session->get('tickets');
-
+		
 		return $this->render('LouvreBookingBundle:Booking:recap.html.twig', array(
 			'booking' => $booking,
 			'tickets' => $tickets,
+			
 		));
+	}
+
+
+	public function confirmAction()
+	{
+		return $this->render('LouvreBookingBundle:Booking:confirm.html.twig');
 	}
 }
