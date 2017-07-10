@@ -3,6 +3,7 @@
 namespace Louvre\BookingBundle\Controller;
 
 use Louvre\BookingBundle\Entity\Booking;
+use Louvre\BookingBundle\Repository\BookingRepository;
 use Louvre\BookingBundle\Entity\Ticket;
 use Louvre\BookingBundle\Entity\Billet;
 use Louvre\BookingBundle\Form\BookingType;
@@ -22,15 +23,21 @@ class BookingController extends Controller
 {
 	public function indexAction(Request $request)
 	{
-		
-		$session = $request->getSession();
 		date_default_timezone_set('Europe/Paris');
+
+		$session = $request->getSession();
+		
 		$booking = new Booking();
 
 
 		$form = $this->createForm(BookingType::class, $booking);
 
-		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) 
+		{
+			$ticketsSold = ticketsSold($booking->getDate());
+			var_dump($ticketsSold);
+			var_dump($booking->getDate());
+
 			$session->set('booking', $booking);
 
 			return $this->redirectToRoute('louvre_booking_ticket');
@@ -71,6 +78,7 @@ class BookingController extends Controller
 
 			$request->getSession()->set('tickets', $tickets);
 			$tickets = $request->getSession()->get('tickets');
+			
 
 			$date1 = new \Datetime('now');
 
@@ -99,8 +107,14 @@ class BookingController extends Controller
 				{
 					$tickets[$i]->setPrice(10);
 				}
+				else
+				{
+					$tickets[$i]->setPrice(16);
+				}
 				
 			}
+
+
 			
 			
 
@@ -110,11 +124,11 @@ class BookingController extends Controller
 
 		}
 
+
 		return $this->render('LouvreBookingBundle:Booking:ticket.html.twig', array(
 			'form' => $form->createView(),
 			'booking' => $booking,
-
-			
+						
 			));
 	}
 
@@ -133,8 +147,53 @@ class BookingController extends Controller
 	}
 
 
-	public function confirmAction()
+	public function confirmAction(Request $request)
 	{
+		$booking = $request->getSession()->get('booking');
+		$tickets = $request->getSession()->get('tickets');
+		$amount = 0;
+		//Calcul du montant total de la commande
+		for($i = 1; $i <= $booking->getNbTickets(); $i++)
+		{
+			$amount += ($tickets[$i]->getPrice()*100);
+		}
+
+
+		// Set your secret key: remember to change this to your live secret key in production
+		// See your keys here: https://dashboard.stripe.com/account/apikeys
+		\Stripe\Stripe::setApiKey("sk_test_rv7QCc1V2Pk38fdU0wT2dUrT");
+
+		// Token is created using Stripe.js or Checkout!
+		// Get the payment token submitted by the form:
+		$token = $_POST['stripeToken'];
+
+		// Charge the user's card:
+		$charge = \Stripe\Charge::create(array(
+		  "amount" => $amount,
+		  "currency" => "eur",
+		  "description" => "Example charge",
+		  "source" => $token,
+		));
+
+		$em = $this->getDoctrine()->getManager();
+		$em->persist($booking);
+		foreach($tickets as $ticket)
+		{
+			$em->persist($ticket);
+		}
+		$em->flush();
+
+
+		$recipient = $booking->getEmail();
+		// Email to be sent once payment process is finished
+		$message = (new \Swift_Message('Louvre Confirmation commande'))
+			->setFrom('thomas.proust89@gmail.com')
+			->setTo($recipient)
+			->setBody('test')
+				
+			;
+		$this->get('mailer')->send($message);
+
 		return $this->render('LouvreBookingBundle:Booking:confirm.html.twig');
 	}
 }

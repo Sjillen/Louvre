@@ -27,7 +27,8 @@ class BookingType extends AbstractType
                 'widget' => 'single_text',
                 'format' => 'dd/MM/yyyy',
                 'html5' => false,
-                'attr' => ['class' => 'js-datepicker'],
+                'label_attr' => ['class' => 'col-sm-2'],
+                
                 ))
             ->add('type', ChoiceType::class, array(
                 'choices' => array('Journée' => 'Journée', 'Demi-journée' => 'Demi-journée'),
@@ -38,7 +39,11 @@ class BookingType extends AbstractType
             ->add('email', EmailType::class)
             ->add('firstName', TextType::class)
             ->add('lastName', TextType::class)
-            ->add('nbTickets', IntegerType::class)
+            ->add('nbTickets', IntegerType::class, array(
+                'attr' => array(
+                    'min' => 1,
+                    'max' => 100,
+                )))
             ->add('reference', HiddenType::class)
             ->add('save', SubmitType::class);
     }

@@ -2,6 +2,10 @@
 
 namespace Louvre\BookingBundle\Repository;
 
+use Louve\BookingBundle\Entity\Booking;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
+
 /**
  * BookingRepository
  *
@@ -10,4 +14,22 @@ namespace Louvre\BookingBundle\Repository;
  */
 class BookingRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function ticketsSold(\DateTime $date)
+	{
+		$qb = $this->createQueryBuilder('b');
+		$qb
+			->where('b.date = :date')
+			->setParameter('date', $date)
+		;
+		$bookings = $qb->getQuery()->getResult();
+
+		$totalTickets = 0;
+		foreach ($bookings as $booking)
+		{
+			$nbTickets = $booking['nbTickets'];
+			$totalTickets += $nbTickets;
+		}
+
+		return $totalTickets;
+	}
 }
