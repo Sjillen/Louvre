@@ -2,7 +2,7 @@
 
 namespace Louvre\BookingBundle\Repository;
 
-use Louve\BookingBundle\Entity\Booking;
+
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
@@ -22,11 +22,11 @@ class BookingRepository extends \Doctrine\ORM\EntityRepository
 			->setParameter('date', $date)
 		;
 		$bookings = $qb->getQuery()->getResult();
-
+		
 		$totalTickets = 0;
 		foreach ($bookings as $booking)
 		{
-			$nbTickets = $booking['nbTickets'];
+			$nbTickets = $booking->getNbTickets();
 			$totalTickets += $nbTickets;
 		}
 

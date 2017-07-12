@@ -26,20 +26,39 @@ class BookingController extends Controller
 		date_default_timezone_set('Europe/Paris');
 
 		$session = $request->getSession();
-		
-		$booking = new Booking();
 
+		$booking = new Booking();
 
 		$form = $this->createForm(BookingType::class, $booking);
 
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) 
 		{
-			$ticketsSold = ticketsSold($booking->getDate());
-			var_dump($ticketsSold);
-			var_dump($booking->getDate());
+			
+			$now = new \DateTime('now');
+			$date = $booking->getDate();
+			$day = (int) date_diff($now, $date)->format("%a");
+			$hour = (int) $now->format('h');
+			// if the date is today && after 14:00 && the ticket type chosen is Journée
+			if ($day === 0 && $hour >= 7 && $booking->getType() === 'Journée' )
+			{
+				$request->getSession()->getFlashBag()->add('warning', 'Seuls les tickets Demi-journée sont disponibles après 14h00');
 
+				return $this->redirectToRoute('louvre_booking_home');
+			}
+
+			//Checking the amount of tickets sold for the chosen date
+			$ticketsSold = $this->getDoctrine()->getManager()->getRepository('LouvreBookingBundle:Booking')->ticketsSold($booking->getDate());
+			$ticketsLeft = 1000 - $ticketsSold;
+
+			//If the chosen amount is exceeding
+			if ($ticketsLeft < $booking->getNbTickets()) {
+				$request->getSession()->getFlashBag()->add('error', 'Désolé, le nombre maximum de tickets réservés a été atteint pour ce jour. Nombre de place restantes pour cette date: '. $ticketsLeft . ' tickets.' );
+
+				return $this->redirectToRoute('louvre_booking_home');
+			}
+
+			// Saving the object in session
 			$session->set('booking', $booking);
-
 			return $this->redirectToRoute('louvre_booking_ticket');
 
 		}
@@ -112,19 +131,13 @@ class BookingController extends Controller
 					$tickets[$i]->setPrice(16);
 				}
 				
-			}
-
-
-			
-			
+			}			
 
 			return $this->redirectToRoute('louvre_booking_review');
 
 			$request->getSession()->getFlashBag()->add('success','Votre reservation a bien ete prise en compte.');
 
 		}
-
-
 		return $this->render('LouvreBookingBundle:Booking:ticket.html.twig', array(
 			'form' => $form->createView(),
 			'booking' => $booking,
@@ -138,10 +151,18 @@ class BookingController extends Controller
 
 		$booking = $session->get('booking');
 		$tickets = $session->get('tickets');
+		$amount = 0;
+		//Calcul du montant total de la commande
+		for($i = 1; $i <= $booking->getNbTickets(); $i++)
+		{
+			$amount += ($tickets[$i]->getPrice()*100);
+		}
+		$session->set('amount', $amount);
 		
 		return $this->render('LouvreBookingBundle:Booking:recap.html.twig', array(
 			'booking' => $booking,
 			'tickets' => $tickets,
+			'amount' => $amount
 			
 		));
 	}
@@ -149,14 +170,10 @@ class BookingController extends Controller
 
 	public function confirmAction(Request $request)
 	{
-		$booking = $request->getSession()->get('booking');
-		$tickets = $request->getSession()->get('tickets');
-		$amount = 0;
-		//Calcul du montant total de la commande
-		for($i = 1; $i <= $booking->getNbTickets(); $i++)
-		{
-			$amount += ($tickets[$i]->getPrice()*100);
-		}
+		$session = $request->getSession();
+		$booking = $session->get('booking');
+		$tickets = $session->get('tickets');
+		$amount = $session->get('amount');
 
 
 		// Set your secret key: remember to change this to your live secret key in production

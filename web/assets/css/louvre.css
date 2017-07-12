@@ -1,0 +1,56 @@
+@font-face {
+	font-family: 'Montez-Regular';
+	src: url('font/Montez-Regular-webfont.eot') format('eot'),
+		 url('font/Montez-Regular-webfont.woff') format('woff'),
+		 url('font/Montez-Regular-webfont.svg') format('svg'),
+		 url('font/Montez-Regular-webfont.ttf') format('truetype');
+}
+
+
+
+body {
+	background-color: black;
+	padding-top: 60px;
+	
+}
+
+#mainBlock{
+	background: url('img/bg.jpg') no-repeat center;
+	-webkit-background-size: cover;
+	background-size: cover;
+	padding-bottom: 5%;
+
+
+	
+}
+
+.navbar-header {
+	margin-bottom: 10px;
+}
+
+.title {
+	text-align: center;
+	padding-top: 5%;
+	padding-bottom: 2.5%; 
+	font-family: 'Montez-Regular', arial, verdana, sans-serif;;
+	color: #b7b6b6;
+}
+
+h1 {
+	font-size: 64px;	
+}
+
+
+.footer {
+    padding-top: 15px;
+    text-align: center;
+    background-color: #222222;
+    color: #b7b6b6;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+
+}
+
+
+

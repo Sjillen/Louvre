@@ -4,7 +4,7 @@ $('#booking_date').datepicker({
     dateFormat: 'dd/mm/yy',
     yearRange: "-0:+1",
     minDate: 0,
-    defaultDate: "0",
+    defaultDate: 0,
     beforeShowDay: function(date) {
         var d = date.getDate();
         var m = date.getMonth() + 1;
