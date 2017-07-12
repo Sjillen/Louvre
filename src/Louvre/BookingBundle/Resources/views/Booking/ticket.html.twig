@@ -3,75 +3,69 @@
 {% block title %}{{ parent() }} - Tickets{% endblock %}
 	
 {% block body %}
-		<h1>Bienvenue sur la billetterie en ligne du musée du Louvre</h1>
-
-		<h2>Reservation pour une {{ booking.type }}</h2>
-
-		<p>Deuxieme formulaire a placer ici avec: </p>
-			<ul>
-				<li>1 formulaire par ticket sélectionné</li>
-				<li>nom, prénom, pays</li>
-				<li>âge</li>
-				<li>Discount</li>
-			</ul>
-
-		<h3>Formulaire ticket</h3>
+		
 
 		<div class="row">
 		  {{ form_start(form, { 'attr' : {'class': 'form-horizontal'}}) }}
 		  {{form_errors(form) }}
 		  
-		  	<div class="col-sm-10 col-sm-offset-1">
+		  	<div id="conteneurFlex" class="col-xs-12 col-sm-11">
 		  	{% for ticket in form.tickets %}
 		  
-		  		<div class="well col-sm-4">
-					<div class ="form-group">
-						{{ form_label(ticket.firstName, "Votre prénom", { 'label_attr': {'class': "col-sm-4 control-label"}}) }}
-						{{ form_errors(ticket.firstName) }}
-						<div class="col-sm-6">
-							{{ form_widget(ticket.firstName, {'attr': {'class': 'form-control'}}) }}
+		  		<div class="well col-sm-3 col-sm-offset-1">
+		  			<div id="ticketContainer" class="row">
+						<div class="col-xs-12 col-sm-10 col-sm-offset-1">
+							<div class="row">
+								<div class="col-sm-8 col-sm-offset-2">
+			  						<h3>Ticket</h3>
+			  					</div>
+								<div class ="form-group">
+									{{ form_label(ticket.firstName, "Votre prénom", { 'label_attr': {'class': "col-sm-4 control-label"}}) }}
+									{{ form_errors(ticket.firstName) }}
+									<div class="col-sm-6">
+										{{ form_widget(ticket.firstName, {'attr': {'class': 'form-control'}}) }}
+									</div>
+								</div>
+
+								<div class ="form-group">
+									{{ form_label(ticket.lastName, "Votre nom de famille", { 'label_attr': {'class': "col-sm-4 control-label"}}) }}
+									{{ form_errors(ticket.lastName) }}
+									<div class="col-sm-6">
+										{{ form_widget(ticket.lastName, {'attr': {'class': 'form-control'}}) }}
+									</div>
+								</div>
+
+								<div class="form-group">
+									{{ form_label(ticket.age, "Votre âge", { 'label_attr': {'class': 'col-sm-4 control-label'}}) }}
+									<div class="col-sm-6">
+										{{ form_widget(ticket.age, {'attr': {'class': 'js-datepicker form-control'}}) }}
+									</div>
+								</div>
+
+								<div class="form-group">
+									{{ form_label(ticket.country, "Votre pays de résidence", { 'label_attr': {'class': 'col-sm-4 control-label'}}) }}
+									<div class="col-sm-6">
+										{{ form_widget(ticket.country, {'attr': {'class': 'form-control'}}) }}
+									</div>
+								</div>
+
+								<div class="form-group">
+									{{ form_label(ticket.discount, "Tarif réduit", { 'label_attr': {'class': 'col-sm-6 control-label'}}) }}
+									<div class="col-sm-10 col-sm-offset-2">
+										{{ form_widget(ticket.discount, {'attr': {'class': 'form-control'}}) }}
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
-
-					<div class ="form-group">
-						{{ form_label(ticket.lastName, "Votre nom de famille", { 'label_attr': {'class': "col-sm-4 control-label"}}) }}
-						{{ form_errors(ticket.lastName) }}
-						<div class="col-sm-6">
-							{{ form_widget(ticket.lastName, {'attr': {'class': 'form-control'}}) }}
-						</div>
-					</div>
-
-					<div class="form-group">
-						{{ form_label(ticket.age, "Votre âge", { 'label_attr': {'class': 'col-sm-4 control-label'}}) }}
-						<div class="col-sm-6">
-							{{ form_widget(ticket.age, {'attr': {'class': 'js-datepicker form-control'}}) }}
-						</div>
-					</div>
-
-					<div class="form-group">
-						{{ form_label(ticket.country, "Votre pays de résidence", { 'label_attr': {'class': 'col-sm-4 control-label'}}) }}
-						<div class="col-sm-6">
-							{{ form_widget(ticket.country, {'attr': {'class': 'form-control'}}) }}
-						</div>
-					</div>
-
-					<div class="form-group">
-						{{ form_label(ticket.discount, "Tarif réduit", { 'label_attr': {'class': 'col-sm-4 control-label'}}) }}
-						<div class="col-sm-6 col-sm-offset-4">
-							{{ form_widget(ticket.discount, {'attr': {'class': 'form-control'}}) }}
-						</div>
-					</div>
-					
-		  		</div>
-
-		  		
-		  	{% endfor %}
-			    <div class="form-group">
-					<div class="col-sm-6 col-sm-offset-4">
-						{{ form_widget(form.save, {'attr': {'class' : 'btn btn-primary'}}) }}
-					</div>
+		  		</div>		  		
+		  		{% endfor %}
+			</div>	
+			<div id ="saveTickets" class="col-sm-6 col-sm-offset-4">
+				<div>
+					{{ form_widget(form.save, {'attr': {'class' : 'btn btn-primary'}}) }}
 				</div>
-			</div>		  
+			</div>	  
 		  {{ form_end(form) }}	
 		</div>
 

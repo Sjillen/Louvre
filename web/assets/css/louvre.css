@@ -32,12 +32,17 @@ body {
 	text-align: center;
 	padding-top: 5%;
 	padding-bottom: 2.5%; 
-	font-family: 'Montez-Regular', arial, verdana, sans-serif;;
+	font-family: 'Montez-Regular', arial, verdana, sans-serif;
 	color: #b7b6b6;
 }
 
 h1 {
 	font-size: 64px;	
+}
+h3 {
+	font-family: 'Montez-Regular', arial, verdana, sans-serif;
+	text-align: center;
+	font-size: 32px;
 }
 
 
@@ -50,6 +55,18 @@ h1 {
     bottom: 0;
     width: 100%;
 
+}
+
+#conteneurFlex {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+}
+
+
+.checkbox {
+	font-weight: bold;
 }
 
 
