@@ -53,5 +53,62 @@ $(function() {
 });
 
 
+var checkAge = function(date, today)
+{
+    var dt = today.getDate();
+    var mt = today.getMonth()+1; //January is 0!
+    var yyt = today.getFullYear();
+        
+    var dd = date.getDate();
+    var md = date.getMonth()+1; //January is 0!
+    var yyd = date.getFullYear();
 
- 
+    var yearAge = yyt-yyd;
+    if (md == mt)
+    {
+        if(dd > dt)
+        {
+            yearAge--;
+        }
+    }else if (md > mt)
+    {
+        yearAge--;
+    }
+    
+   return yearAge;
+ }
+
+ var checkPrice = function(age, discount)
+ {
+    var price = 16;
+
+    if(age < 4){
+        price = 0;
+    }else if (age >= 4 && age <= 12) {
+        price = 8;
+    }else if (age >= 60) {
+        price = 12;
+    }else if (discount) {
+        price = 10;
+    }
+    
+    return price;
+ }
+
+ $(function() {
+    $(".js-datepicker").change(function() {
+        var nbTickets = $(".ticketContainer").length;
+        var date = 0;
+        var discount = 0;
+        var price = 0;
+        var today = new Date();
+
+        
+        date = $(".js-datepicker").datepicker("getDate");
+        discount = $(":checkbox").is(":checked") ? true: false;
+        price = checkPrice(checkAge(date, discount));
+
+        $('.price').text(price);
+        
+    });
+ });
