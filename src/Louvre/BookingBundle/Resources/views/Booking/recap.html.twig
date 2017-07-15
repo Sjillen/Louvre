@@ -6,19 +6,7 @@
 
 <div id="recapBody">
 	<div class="row">
-		<div class="col-sm-6 col-sm-offset-3">
-			{% if app.session.flashbag.peekAll|length > 0 %}
-		        {% for type, messages in app.session.flashbag.all %}
-		            {% for message in messages %}
-		                <div class="{{ type ? type : '' }}">
-		                	<div class="alert alert-success">
-		                    {{ message }}
-		                	</div>
-		                </div>
-		            {% endfor %}
-		        {% endfor %}
-		    {% endif %}
-		</div>
+		
 		<div class="well col-xs-12 col-sm-4 col-sm-offset-2">
 			<div class="bs-example">
 				<h2> Vos informations de réservation</h2>
@@ -35,6 +23,7 @@
 			</div>
 		</div>
 	    <div class=" well col-xs-12 col-sm-8 col-sm-offset-2">
+	    	<h2> Vos tickets</h2>
 			<div class="table-responsive">
 				<table class="table table-hover table-condensed">
 					<thead>
@@ -53,28 +42,33 @@
 						<td>{{ ticket.firstName }}</td>
 						<td>{{ ticket.age|date('d/m/Y') }}</td>
 						<td>{{ ticket.country }}</td>
-						<td>{{ ticket.discount }}</td>
-						<td>{{ ticket.price }}€</td>
+						<td class="discount">{{ ticket.discount }}</td>
+						<td class="priceDisplayed">{{ ticket.price }}€</td>
 					</tr>
 					{% endfor %}
 				</table>
 			</div> <!-- .table-responsive -->
+			<div class="col-xs-12 col-sm-3 col-sm-offset-9">
+				<dl class="dl-horizontal">
+					<dt>Montant Total</dt>
+						<dd>{{ amount }}€</dd>
+				</dl>
+			</div>
+			<form action="/Louvre/web/app_dev.php/booking/confirm" method="POST">
+				<script
+				  src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+				  data-key="pk_test_vNhMdEktJ8nxWDjERI7xTVDY"
+				  data-amount={{ amountStripe}}
+				  data-name="Musée du Louvre"
+				  data-description="Billetterie en ligne du musée du Louvre"
+				  data-image="{{ asset('assets/css/img/logo.jpg') }}"
+				  data-locale="auto"
+				  data-currency="eur"
+				  data-email= {{ booking.email }} >
+				</script>
+			</form>
 		</div>
 	</div>
 </div> <!-- #bodyAdmin -->	
-<form action="/Louvre/web/app_dev.php/booking/confirm" method="POST">
-	<script
-	  src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-	  data-key="pk_test_vNhMdEktJ8nxWDjERI7xTVDY"
-	  data-amount={{ amount }}
-	  data-name="Musée du Louvre"
-	  data-description="Billetterie en ligne du musée du Louvre"
-	  data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-	  data-locale="auto"
-	  data-currency="eur"
-	  data-email= {{ booking.email }} >
-	</script>
-</form>
-
 
 {% endblock %}

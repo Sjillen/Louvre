@@ -22,9 +22,22 @@
 				</nav>		
 
 					
-
 				<div id="mainBlock" class="col-xs-12 col-sm-10 col-sm-offset-1">
 					<div class="row">
+						<div class="col-sm-6 col-sm-offset-3">
+						{% if app.session.flashbag.peekAll|length > 0 %}
+					        {% for type, messages in app.session.flashbag.all %}
+					            {% for message in messages %}
+					                <div class="{{ type ? type : '' }}">
+					                	<div class="alert alert-{{ type }}">
+					                    {{ message }}
+					                	</div>
+					                </div>
+					            {% endfor %}
+					        {% endfor %}
+					    {% endif %}
+						</div>
+
 						<div class="title col-xs-12">
 							<h1>Visiter le Musée du Louvre</h1>
 						</div>	

@@ -135,7 +135,7 @@ class BookingController extends Controller
 
 			return $this->redirectToRoute('louvre_booking_review');
 
-			$request->getSession()->getFlashBag()->add('success','Votre reservation a bien ete prise en compte.');
+			
 
 		}
 		return $this->render('LouvreBookingBundle:Booking:ticket.html.twig', array(
@@ -155,14 +155,17 @@ class BookingController extends Controller
 		//Calcul du montant total de la commande
 		for($i = 1; $i <= $booking->getNbTickets(); $i++)
 		{
-			$amount += ($tickets[$i]->getPrice()*100);
+			$amount += ($tickets[$i]->getPrice());
 		}
+		$amountStripe = $amount*100;
 		$session->set('amount', $amount);
+		$session->set('amountStripe', $amountStripe);
 		
 		return $this->render('LouvreBookingBundle:Booking:recap.html.twig', array(
 			'booking' => $booking,
 			'tickets' => $tickets,
-			'amount' => $amount
+			'amount' => $amount,
+			'amountStripe' => $amountStripe
 			
 		));
 	}
@@ -173,8 +176,9 @@ class BookingController extends Controller
 		$session = $request->getSession();
 		$booking = $session->get('booking');
 		$tickets = $session->get('tickets');
+		$amountStripe = $session->get('amountStripe');
 		$amount = $session->get('amount');
-
+		/*
 
 		// Set your secret key: remember to change this to your live secret key in production
 		// See your keys here: https://dashboard.stripe.com/account/apikeys
@@ -199,8 +203,8 @@ class BookingController extends Controller
 			$em->persist($ticket);
 		}
 		$em->flush();
-
-
+		*/
+		$request->getSession()->getFlashBag()->add('success','Votre reservation a bien ete prise en compte.');
 		$recipient = $booking->getEmail();
 		// Email to be sent once payment process is finished
 		$message = (new \Swift_Message('Louvre Confirmation commande'))
@@ -211,6 +215,10 @@ class BookingController extends Controller
 			;
 		$this->get('mailer')->send($message);
 
-		return $this->render('LouvreBookingBundle:Booking:confirm.html.twig');
+		return $this->render('LouvreBookingBundle:Booking:confirm.html.twig',array(
+			'booking' => $booking,
+			'tickets' => $tickets,
+			'amount' => $amount,
+			));
 	}
 }

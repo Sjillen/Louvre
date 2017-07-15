@@ -3,6 +3,64 @@
 {% block title %}{{ parent() }} - commande confirmee{% endblock %}
 	
 {% block body %}
-page de confirmation paiement et commande
+<div id="recapBody">
+	<div class="row">
+		<div class="col-sm-6 col-sm-offset-3">
+			{% if app.session.flashbag.peekAll|length > 0 %}
+		        {% for type, messages in app.session.flashbag.all %}
+		            {% for message in messages %}
+		                <div class="{{ type ? type : '' }}">
+		                	<div class="alert alert-success">
+		                    {{ message }}
+		                	</div>
+		                </div>
+		            {% endfor %}
+		        {% endfor %}
+		    {% endif %}
+		</div>
+		<div class="well col-xs-12 col-sm-4 col-sm-offset-2">
+			<div class="bs-example">
+				<h2> Vos informations de réservation</h2>
+				<dl class="dl-horizontal">
+					<dt>Référence: </dt>
+						<dd>{{ booking.reference }}</dd>
+					<dt>Date: </dt>
+						<dd>{{ booking.date|date('d/m/Y') }}</dd>
+					<dt>Email: </dt>
+						<dd>{{ booking.email }}</dd>
+					<dt>Type de billet: <dt>
+						<dd>{{ booking.type }}</dd>
+				</dl>
+			</div>
+		</div>
+	    <div class=" well col-xs-12 col-sm-8 col-sm-offset-2">
+			<div class="table-responsive">
+				<table class="table table-hover table-condensed">
+					<thead>
+						<tr>
+							<th>Nom</th>
+							<th>Prénom</th>
+							<th>Date de naissance</th>
+							<th>Pays de résidence</th>
+							<th>Réduction</th>
+							<th>Tarif</th>
+						</tr>
+					</thead>
+					{% for ticket in tickets %}
+					<tr>
+						<td>{{ ticket.lastName }}</td>
+						<td>{{ ticket.firstName }}</td>
+						<td>{{ ticket.age|date('d/m/Y') }}</td>
+						<td>{{ ticket.country }}</td>
+						<td class="discount">{{ ticket.discount }}</td>
+						<td class="priceDisplayed">{{ ticket.price }}€</td>
+					</tr>
+					{% endfor %}
+				</table>
+			</div> <!-- .table-responsive -->
+			
+		</div>
+	</div>
+</div> <!-- #bodyAdmin -->	
 
 {% endblock %}
