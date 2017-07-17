@@ -10,48 +10,49 @@
 
 	<body>
 
+
 			<div class="row">
 			
 				<nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
 					<div class="container">
 						<div class="navbar-header">
-							<a class="navbar-brand" href="{{ path('louvre_booking_home') }}"><span><img alt="Brand" src="{{ asset('assets/css/img/logo.png') }}"></span>Bienvenue sur la billetterie en ligne du musée du Louvre</a>
-
+							<a class="navbar-brand" href="{{ path('louvre_booking_home') }}"><span><img alt="Brand" src="{{ asset('assets/css/img/logo.png') }}"></span>Billetterie en ligne du musée du Louvre</a>
+						</div>
+						<div class="nav navbar-nav navbar-right">
+							<ol class="breadcrumb">
+							  <li><a href="{{ path('louvre_booking_home') }}">Accueil</a></li>
+							  <li><a href="{{ path('louvre_booking_booking') }}">Réservation</a></li>
+							  <li href="{{ path('louvre_booking_review') }}" class="active">Tickets</li>
+							  <li><a href="{{ path('louvre_booking_review') }}">Récapitulatif</a></li>
+							  <li><a href="{{ path('louvre_booking_confirm') }}">Commande confirmée !</a></li>
+							</ol>
 						</div>
 					</div>
 				</nav>		
-
+				
 					
-
 				<div id="mainBlock" class="col-xs-12 col-sm-10 col-sm-offset-1">
 					<div class="row">
+						
+						<div class="col-sm-6 col-sm-offset-3 col-xs-12">
+							{% if app.session.flashbag.peekAll|length > 0 %}
+						        {% for type, messages in app.session.flashbag.all %}
+						            {% for message in messages %}
+						                <div class="{{ type ? type : '' }}">
+						                	<div class="alert alert-success alert-dismissible" role="alert">
+						                		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						                    	{{ message|raw }}
+						                	</div>
+						                </div>
+						            {% endfor %}
+						        {% endfor %}
+						    {% endif %}
+						</div>
+						
 						<div class="title col-xs-12">
 							<h1>Visiter le Musée du Louvre</h1>
 						</div>	
-						<div class="col-xs-12 col-sm-offset-4 col-sm-4">
-							<div class="progress">
-							  <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 20%">
-							    <span class="sr-only">20% Complete</span>
-							    1.Réservation
-							  </div>
-							  <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 20%">
-							    <span class="sr-only">20% Complete</span>
-							    2.Billets
-							  </div>
-							  <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 20%">
-							    <span class="sr-only">20% Complete</span>
-							    3.Récapitulatif
-							  </div>
-							  <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 20%">
-							    <span class="sr-only">20% Complete</span>
-							    4.Paiement
-							  </div>
-							  <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 20%">
-							    <span class="sr-only">20% Complete</span>
-							    5.Terminé !
-							  </div>
-							</div>
-						</div>
+						
 
 				{% block body %}
 				{% endblock %}

@@ -27,11 +27,7 @@ class TicketType extends AbstractType
             ->add('firstName', TextType::class)
             ->add('lastName', TextType::class)
             ->add('age', BirthdayType::class, array(
-                'widget' => 'single_text',
-                'format' => 'dd/MM/yyyy',
-                'html5' => false,
-                'attr' => ['class' => 'js-datepicker'],
-
+                'attr' => ['class' => 'ageDate'],
                 ))
             ->add('country', CountryType::class, array(
                 'data' => 'FR',

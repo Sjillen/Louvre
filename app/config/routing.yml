@@ -1,4 +1,4 @@
 louvre_booking:
     resource: "@LouvreBookingBundle/Resources/config/routing.yml"
-    prefix:   /booking
+    prefix:   /
 

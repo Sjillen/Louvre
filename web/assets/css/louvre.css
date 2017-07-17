@@ -28,6 +28,11 @@ body {
 	margin-bottom: 10px;
 }
 
+.progress {
+	text-align: center;
+	color: black;
+}
+
 .title {
 	text-align: center;
 	padding-top: 5%;
@@ -67,6 +72,16 @@ h3 {
 
 .checkbox {
 	font-weight: bold;
+}
+
+th, td {
+	text-align: center;
+}
+
+.breadcrumb {
+	background-color: #222222;
+	color: #b7b6b6;
+	margin-top: 20px;
 }
 
 

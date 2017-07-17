@@ -3,7 +3,13 @@
 {% block title %}{{ parent() }} - Tickets{% endblock %}
 	
 {% block body %}
-		
+	<div class="col-xs-12 col-sm-offset-4 col-sm-4">
+		<div class="progress">
+		  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%">
+		    <span class="sr-only">50% Complete</span>
+		   </div>
+		</div>
+	</div>
 
 		<div class="row">
 		  {{ form_start(form, { 'attr' : {'class': 'form-horizontal'}}) }}
@@ -12,7 +18,7 @@
 		  	<div id="conteneurFlex" class="col-xs-12 col-sm-11">
 		  	{% for ticket in form.tickets %}
 		  
-		  		<div class="well ticketContainer col-sm-3 col-sm-offset-1">
+		  		<div class="well ticketContainer col-md-4 col-md-offset-1 col-xs-10 col-xs-offset-1">
 		  			<div class="row">
 						<div class="col-xs-12 col-sm-10 col-sm-offset-1">
 							<div class="row">
@@ -20,7 +26,7 @@
 			  						<h3>Ticket</h3>
 			  					</div>
 								<div class ="form-group">
-									{{ form_label(ticket.firstName, "Votre prénom", { 'label_attr': {'class': "col-sm-4 control-label"}}) }}
+									{{ form_label(ticket.firstName, "Prénom", { 'label_attr': {'class': "col-sm-4 control-label"}}) }}
 									{{ form_errors(ticket.firstName) }}
 									<div class="col-sm-6">
 										{{ form_widget(ticket.firstName, {'attr': {'class': 'form-control'}}) }}
@@ -28,7 +34,7 @@
 								</div>
 
 								<div class ="form-group">
-									{{ form_label(ticket.lastName, "Votre nom de famille", { 'label_attr': {'class': "col-sm-4 control-label"}}) }}
+									{{ form_label(ticket.lastName, "Nom de famille", { 'label_attr': {'class': "col-sm-4 control-label"}}) }}
 									{{ form_errors(ticket.lastName) }}
 									<div class="col-sm-6">
 										{{ form_widget(ticket.lastName, {'attr': {'class': 'form-control'}}) }}
@@ -36,14 +42,14 @@
 								</div>
 
 								<div class="form-group">
-									{{ form_label(ticket.age, "Votre âge", { 'label_attr': {'class': 'col-sm-4 control-label'}}) }}
-									<div class="col-sm-6">
-										{{ form_widget(ticket.age, {'attr': {'class': 'js-datepicker form-control'}}) }}
+									{{form_label(ticket.age, "Age", {'label_attr': {'class': 'col-sm-4 control-label'}}) }}
+									<div class="col-sm-8">
+										{{ form_widget(ticket.age) }}
 									</div>
 								</div>
 
 								<div class="form-group">
-									{{ form_label(ticket.country, "Votre pays de résidence", { 'label_attr': {'class': 'col-sm-4 control-label'}}) }}
+									{{ form_label(ticket.country, "Pays de résidence", { 'label_attr': {'class': 'col-sm-4 control-label'}}) }}
 									<div class="col-sm-6">
 										{{ form_widget(ticket.country, {'attr': {'class': 'form-control'}}) }}
 									</div>

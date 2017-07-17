@@ -14,13 +14,6 @@ $('#booking_date').datepicker({
     }
 });
 
-$('.js-datepicker').datepicker({
-    changeMonth: true,
-    changeYear: true,
-    defaultDate: '-4y',
-    yearRange: "-100:-4",
-    dateFormat: 'dd/mm/yy',   
-});
 
 
 var checkDate = function() 
@@ -91,3 +84,31 @@ var checkAge = function(){
 $('.js-datepicker').change(function() {
     checkAge();
  });
+
+
+ $(function() {
+    $(".ageDate").change(function() {
+        var nbTickets = $(".ticketContainer").length;
+        var date = 0;
+        var discount = 0;
+        var price = 0;
+        var today = new Date();
+
+        
+        date = $(".js-datepicker").datepicker("getDate");
+        discount = $(":checkbox").is(":checked") ? true: false;
+        price = checkPrice(checkAge(date, discount));
+
+        $('.price').text(price);
+        
+    });
+ });
+
+ var discountType = $('.discount').text();
+ var discountDisplay = " - ";
+ if (discountType == '11') {
+    discountDisplay = "Tarif reduit";
+    $('.discountType').text(discountDisplay);
+ }
+
+
