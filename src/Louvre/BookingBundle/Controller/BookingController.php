@@ -227,20 +227,7 @@ class BookingController extends Controller
             	'text/html'
        		);     				
 		*/
-		// using SendGrid's PHP Library
-		// https://github.com/sendgrid/sendgrid-php
-		// If you are using Composer (recommended)
-		//require 'vendor/autoload.php';
-		// If you are not using Composer
-		// require("path/to/sendgrid-php/sendgrid-php.php");
-		$from = new \SendGrid\Email("Louvre e-Billet", "ebillet@louvre.com");
-		$subject = "Louvre Confirmation commande";
-		$to = new \SendGrid\Email("Example User", $booking->getEmail() );
-		$content = new \SendGrid\Content("text/plain", "and easy to do anywhere, even with PHP");
-		$mail = new \SendGrid\Mail($from, $subject, $to, $content);
-		$apiKey ='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';
-		$sg = new \SendGrid($apiKey);
-		$response = $sg->client->mail()->send()->post($mail);
+		
 		
 		//$this->get('mailer')->send($mail);
 		$request->getSession()->getFlashBag()->add('success','Succès ! Billet envoyé par email à <strong>'. $booking->getEmail(). ' </strong>!');

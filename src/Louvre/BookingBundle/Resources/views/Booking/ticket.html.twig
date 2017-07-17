@@ -32,12 +32,12 @@
 			<table class="table table-hover table-condensed">
 				<thead>
 					<tr>
-						<th>Nom</th>
-						<th>Prénom</th>
-						<th>Date de naissance</th>
-						<th>Pays de résidence</th>
-						<th>Réduction</th>
-						<th>Tarif</th>
+						<th class="col-xs-2">Nom</th>
+						<th class="col-xs-2">Prénom</th>
+						<th class="col-xs-3">Date de naissance</th>
+						<th class="col-xs-2">Pays de résidence</th>
+						<th class="col-xs-1">Réduction</th>
+						<th class="col-xs-2">Tarif</th>
 					</tr>
 				</thead>
 				{{ form_start(form, { 'attr' : {'class': 'form-horizontal'}}) }}
@@ -49,18 +49,22 @@
 					<td>{{ form_widget(ticket.firstName) }}</td>
 					<td>{{ form_widget(ticket.age) }}</td>
 					<td>{{ form_widget(ticket.country) }}</td>
-					<td class="discount">{{ form_widget(ticket.discount, '*') }}</td>
+					<td class="discount">
+						{{ form_widget(ticket.discount, {'attr': {'class': 'form-control'}}) }}
+					</td>
 					<td class="priceDisplayed"> -- €</td>
 				</tr>
 				{% endfor %}
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td><strong>Montant total</strong></td>
+					<td> <strong><span class="total">--</span>€</strong></td>
+				</tr>
 			</table>
 		</div> <!-- .table-responsive -->
-		<div class="col-xs-12 col-sm-3 col-sm-offset-9">
-			<dl class="dl-horizontal">
-				<dt>Montant Total</dt>
-					<dd> -- €</dd>
-			</dl>
-		</div>
 	</div>
 	
 	<div id ="saveTickets" class="col-sm-6 col-sm-offset-4">
