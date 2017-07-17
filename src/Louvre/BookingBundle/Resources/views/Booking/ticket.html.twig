@@ -11,72 +11,65 @@
 		</div>
 	</div>
 
-		<div class="row">
-		  {{ form_start(form, { 'attr' : {'class': 'form-horizontal'}}) }}
-		  {{form_errors(form) }}
-		  
-		  	<div id="conteneurFlex" class="col-xs-12 col-sm-11">
-		  	{% for ticket in form.tickets %}
-		  
-		  		<div class="well ticketContainer col-md-4 col-md-offset-1 col-xs-10 col-xs-offset-1">
-		  			<div class="row">
-						<div class="col-xs-12 col-sm-10 col-sm-offset-1">
-							<div class="row">
-								<div class="col-sm-8 col-sm-offset-2">
-			  						<h3>Ticket</h3>
-			  					</div>
-								<div class ="form-group">
-									{{ form_label(ticket.firstName, "Prénom", { 'label_attr': {'class': "col-sm-4 control-label"}}) }}
-									{{ form_errors(ticket.firstName) }}
-									<div class="col-sm-6">
-										{{ form_widget(ticket.firstName, {'attr': {'class': 'form-control'}}) }}
-									</div>
-								</div>
-
-								<div class ="form-group">
-									{{ form_label(ticket.lastName, "Nom de famille", { 'label_attr': {'class': "col-sm-4 control-label"}}) }}
-									{{ form_errors(ticket.lastName) }}
-									<div class="col-sm-6">
-										{{ form_widget(ticket.lastName, {'attr': {'class': 'form-control'}}) }}
-									</div>
-								</div>
-
-								<div class="form-group">
-									{{form_label(ticket.age, "Age", {'label_attr': {'class': 'col-sm-4 control-label'}}) }}
-									<div class="col-sm-8">
-										{{ form_widget(ticket.age) }}
-									</div>
-								</div>
-
-								<div class="form-group">
-									{{ form_label(ticket.country, "Pays de résidence", { 'label_attr': {'class': 'col-sm-4 control-label'}}) }}
-									<div class="col-sm-6">
-										{{ form_widget(ticket.country, {'attr': {'class': 'form-control'}}) }}
-									</div>
-								</div>
-
-								<div class="form-group">
-									{{ form_label(ticket.discount, "Tarif réduit", { 'label_attr': {'class': 'col-sm-6 control-label'}}) }}
-									<div class="col-sm-10 col-sm-offset-2">
-										{{ form_widget(ticket.discount, {'attr': {'class': 'form-control'}}) }}
-									</div>
-								</div>
-								<div class="priceContainer col-sm-10 col-sm-offset-2">
-									Tarif: <span class="price"></span>€
-								</div>
-							</div>
-						</div>
-					</div>
-		  		</div>		  		
-		  		{% endfor %}
-			</div>	
-			<div id ="saveTickets" class="col-sm-6 col-sm-offset-4">
-				<div>
-					{{ form_widget(form.save, {'attr': {'class' : 'btn btn-primary'}}) }}
-				</div>
-			</div>	  
-		  {{ form_end(form) }}	
+	<div class="well col-xs-12 col-sm-8 col-sm-offset-2">
+		<div class="bs-example">
+			<h2> Vos informations de réservation</h2>
+			<dl class="dl-horizontal">
+				<dt>Référence: </dt>
+					<dd>{{ booking.reference }}</dd>
+				<dt>Date: </dt>
+					<dd>{{ booking.date|date('d/m/Y') }}</dd>
+				<dt>Email: </dt>
+					<dd>{{ booking.email }}</dd>
+				<dt>Type de billet: <dt>
+					<dd>{{ booking.type }}</dd>
+			</dl>
 		</div>
+	</div>
+	<div class=" well col-xs-12 col-sm-10 col-sm-offset-1">
+    	<h2> Vos tickets</h2>
+		<div class="table-responsive">
+			<table class="table table-hover table-condensed">
+				<thead>
+					<tr>
+						<th>Nom</th>
+						<th>Prénom</th>
+						<th>Date de naissance</th>
+						<th>Pays de résidence</th>
+						<th>Réduction</th>
+						<th>Tarif</th>
+					</tr>
+				</thead>
+				{{ form_start(form, { 'attr' : {'class': 'form-horizontal'}}) }}
+	  			{{form_errors(form) }}
+				{% for ticket in form.tickets %}
+
+				<tr>
+					<td>{{ form_widget(ticket.lastName) }}</td>
+					<td>{{ form_widget(ticket.firstName) }}</td>
+					<td>{{ form_widget(ticket.age) }}</td>
+					<td>{{ form_widget(ticket.country) }}</td>
+					<td class="discount">{{ form_widget(ticket.discount, '*') }}</td>
+					<td class="priceDisplayed"> -- €</td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div> <!-- .table-responsive -->
+		<div class="col-xs-12 col-sm-3 col-sm-offset-9">
+			<dl class="dl-horizontal">
+				<dt>Montant Total</dt>
+					<dd> -- €</dd>
+			</dl>
+		</div>
+	</div>
+	
+	<div id ="saveTickets" class="col-sm-6 col-sm-offset-4">
+		<div>
+			{{ form_widget(form.save, {'attr': {'class' : 'btn btn-primary'}}) }}
+		</div>
+	</div>	  
+  {{ form_end(form) }}	
+</div>
 
 		
 {% endblock %}
