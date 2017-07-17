@@ -1,0 +1,59 @@
+
+	
+{% block body %}
+
+<div id="recapBody">
+	<div class="row">
+		
+		<div class="well col-xs-12 col-sm-4 col-sm-offset-2">
+			<div class="bs-example">
+				<h2> Vos informations de réservation</h2>
+				<dl class="dl-horizontal">
+					<dt>Référence: </dt>
+						<dd>{{ booking.reference }}</dd>
+					<dt>Date: </dt>
+						<dd>{{ booking.date|date('d/m/Y') }}</dd>
+					<dt>Email: </dt>
+						<dd>{{ booking.email }}</dd>
+					<dt>Type de billet: <dt>
+						<dd>{{ booking.type }}</dd>
+				</dl>
+			</div>
+		</div>
+	    <div class=" well col-xs-12 col-sm-8 col-sm-offset-2">
+	    	<h2> Vos tickets</h2>
+			<div class="table-responsive">
+				<table class="table table-hover table-condensed">
+					<thead>
+						<tr>
+							<th>Nom</th>
+							<th>Prénom</th>
+							<th>Date de naissance</th>
+							<th>Pays de résidence</th>
+							<th>Réduction</th>
+							<th>Tarif</th>
+						</tr>
+					</thead>
+					{% for ticket in tickets %}
+					<tr>
+						<td>{{ ticket.lastName }}</td>
+						<td>{{ ticket.firstName }}</td>
+						<td>{{ ticket.age|date('d/m/Y') }}</td>
+						<td>{{ ticket.country }}</td>
+						<td class="discount">{{ ticket.discount }}</td>
+						<td class="priceDisplayed">{{ ticket.price }}€</td>
+					</tr>
+					{% endfor %}
+				</table>
+			</div> <!-- .table-responsive -->
+			<div class="col-xs-12 col-sm-3 col-sm-offset-9">
+				<dl class="dl-horizontal">
+					<dt>Montant Total</dt>
+						<dd>{{ amount }}€</dd>
+				</dl>
+			</div>
+		</div>
+	</div>
+</div> <!-- #bodyAdmin -->	
+
+{% endblock %}

@@ -3,24 +3,20 @@
 {% block title %}{{ parent() }} - commande confirmee{% endblock %}
 	
 {% block body %}
+
+<div class="col-xs-12 col-sm-offset-4 col-sm-4">
+	<div class="progress">
+	  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+	    <span class="sr-only">100% Complete</span>
+	   </div>
+	</div>
+</div>
 <div id="recapBody">
 	<div class="row">
-		<div class="col-sm-6 col-sm-offset-3">
-			{% if app.session.flashbag.peekAll|length > 0 %}
-		        {% for type, messages in app.session.flashbag.all %}
-		            {% for message in messages %}
-		                <div class="{{ type ? type : '' }}">
-		                	<div class="alert alert-success">
-		                    {{ message }}
-		                	</div>
-		                </div>
-		            {% endfor %}
-		        {% endfor %}
-		    {% endif %}
-		</div>
-		<div class="well col-xs-12 col-sm-4 col-sm-offset-2">
+		
+		<div class="well col-xs-12 col-sm-3 col-sm-offset-2">
 			<div class="bs-example">
-				<h2> Vos informations de réservation</h2>
+				<h2> Votre réservation</h2>
 				<dl class="dl-horizontal">
 					<dt>Référence: </dt>
 						<dd>{{ booking.reference }}</dd>
@@ -33,6 +29,7 @@
 				</dl>
 			</div>
 		</div>
+		
 	    <div class=" well col-xs-12 col-sm-8 col-sm-offset-2">
 			<div class="table-responsive">
 				<table class="table table-hover table-condensed">

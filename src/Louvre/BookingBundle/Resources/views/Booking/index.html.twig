@@ -1,88 +1,24 @@
-{% extends "LouvreBookingBundle::layout.html.twig" %}
+{% extends 'LouvreBookingBundle::layout.html.twig' %}
 
-{% block title %}{{ parent() }} - Réservation{% endblock %}
-	
+
+{% block title %}{{ parent() }} - Accueil{% endblock %}
+    
 {% block body %}
-
-		{% if app.session.flashbag.peekAll|length > 0 %}
+        {% if app.session.flashbag.peekAll|length > 0 %}
             {% for type, messages in app.session.flashbag.all %}
                 {% for message in messages %}
                     <div class="{{ type ? type : '' }}">
-                    	<div class="alert alert-danger">
+                        <div class="alert alert-danger">
                         {{ message }}
-                    	</div>
+                        </div>
                     </div>
                 {% endfor %}
             {% endfor %}
         {% endif %}
-		
-	
-	<div class="well col-sm-offset-4 col-sm-4">
-		<div id="bookingContainer" class="row">
-			<div class="col-xs-12 col-sm-10 col-sm-offset-1">
-				<div class="row">
-					<div class="col-sm-8 col-sm-offset-2">
-						<h3>Votre Réservation</h3>
-					</div>
-					{{ form_start(form, {'attr' : {'class': 'form-horizontal' }}) }}
-					{{ form_errors(form) }}
+        
 
-					
-					<div class="form-group">
-						{{ form_label(form.date, "Votre date de réservation", { 'label_attr': {'class': 'col-sm-6 control-label'}}) }}
-						<div class="col-sm-6">
-						{{ form_widget(form.date, {'attr': {'class': 'form-control'}}) }}
-						</div>
-					</div>
-
-					<div class="form-group">
-						{{ form_label(form.type, "Votre type de réservation", { 'label_attr': {'class': 'col-sm-6 radio-inline control-label'}}) }}
-						<div class="col-sm-6">
-						{{ form_widget(form.type) }}
-						</div>
-					</div>
-
-					<div class ="form-group">
-						{{ form_label(form.email, "Votre email", { 'label_attr': {'class': "col-sm-6 control-label"}}) }}
-						{{ form_errors(form.email) }}
-						<div class="col-sm-6">
-							{{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
-						</div>
-					</div>
-
-					<div class ="form-group">
-						{{ form_label(form.firstName, "Votre prénom", { 'label_attr': {'class': "col-sm-6 control-label"}}) }}
-						{{ form_errors(form.firstName) }}
-						<div class="col-sm-6">
-							{{ form_widget(form.firstName, {'attr': {'class': 'form-control'}}) }}
-						</div>
-					</div>
-
-					<div class ="form-group">
-						{{ form_label(form.lastName, "Votre nom de famille", { 'label_attr': {'class': "col-sm-6 control-label"}}) }}
-						{{ form_errors(form.lastName) }}
-						<div class="col-sm-6">
-							{{ form_widget(form.lastName, {'attr': {'class': 'form-control'}}) }}
-						</div>
-					</div>
-
-					<div class ="form-group">
-						{{ form_label(form.nbTickets, "Nombre de billets", { 'label_attr': {'class': "col-sm-6 control-label"}}) }}
-						{{ form_errors(form.nbTickets) }}
-						<div class="col-sm-4">
-							{{ form_widget(form.nbTickets, {'attr': {'class': 'form-control'}}) }}
-						</div>
-					</div>
-
-					<div class="form-group">
-						<div class="col-sm-6 col-sm-offset-5">
-							{{ form_widget(form.save, {'attr': {'class' : 'btn btn-primary'}}) }}
-						</div>
-					</div>
-			  	</div>
-				{{ form_end(form) }}			  
-			</div>
-		</div>
-	</div>
-
+    <div class="well col-sm-offset-3 col-sm-6">
+        <h2>Bienvenue sur le billetterie en ligne du musée du Louvre</h2>
+        <button type="button" class="btn btn-primary btn-lg btn-block">Block level button</button>
+    </div>
 {% endblock %}
