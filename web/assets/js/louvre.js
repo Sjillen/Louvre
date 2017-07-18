@@ -1,10 +1,15 @@
+
+
+/********* scripts page booking *********/
+
+//booking date datepicker configuration
 $('#booking_date').datepicker({
     changeMonth: true,
     changeYear: true,          
     dateFormat: 'dd/mm/yy',
     yearRange: "-0:+1",
     minDate: 0,
-    defaultDate: 0,
+    defaultDate: +1,
     beforeShowDay: function(date) {
         var d = date.getDate();
         var m = date.getMonth() + 1;
@@ -15,7 +20,7 @@ $('#booking_date').datepicker({
 });
 
 
-
+// check if date is today and 2pm passed and lock radio to Journée if so
 var checkDate = function() 
 {
     var today = new Date();
@@ -37,78 +42,18 @@ var checkDate = function()
     }
 };
 
+//call to function when page is loaded
 checkDate();
-
+//call to checkDate everytime the value of the booking date changes
 $(function() {
     $('#booking_date').change(function() {   
         checkDate();
     });
 });
 
-
-var checkAge = function(){
-    var date = $('.js-datepicker').datepicker('getDate');
-    var today = new Date();
-    var dt = today.getDate();
-    var mt = today.getMonth()+1; //January is 0!
-    var yyt = today.getFullYear();
-    console.log(date);   
-    var dd = date.getDate();
-    var md = date.getMonth()+1; //January is 0!
-    var yyd = date.getFullYear();
-    var yearAge = yyt-yyd;
-    if (md == mt)
-    {
-        if(dd > dt)
-        {
-            yearAge--;
-        }
-    }else if (md > mt)
-    {
-        yearAge--;
-    }
-    var age = yearAge;
-    console.log(age);
-    var price = 16;
-    if(age < 4){
-        price = 0;
-    }else if (age >= 4 && age <= 12) {
-        price = 8;
-    }else if (age >= 60) {
-        price = 12;
-    }    
-    console.log(price);
-    $('.price').text(price);
- }
- 
-$('.js-datepicker').change(function() {
-    checkAge();
- });
-
-
- $(function() {
-    $(".ageDate").change(function() {
-        var nbTickets = $(".ticketContainer").length;
-        var date = 0;
-        var discount = 0;
-        var price = 0;
-        var today = new Date();
-
-        
-        date = $(".js-datepicker").datepicker("getDate");
-        discount = $(":checkbox").is(":checked") ? true: false;
-        price = checkPrice(checkAge(date, discount));
-
-        $('.price').text(price);
-        
+/********* scripts page tickets *************/
+$(function() {
+    $('select').change(function() {
+        console.log('test');
     });
- });
-
- var discountType = $('.discount').text();
- var discountDisplay = " - ";
- if (discountType == '11') {
-    discountDisplay = "Tarif reduit";
-    $('.discountType').text(discountDisplay);
- }
-
-
+});
