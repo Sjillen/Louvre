@@ -1,59 +1,29 @@
+/********* scripts global *********/
 
-
-/********* scripts page booking *********/
-
-//booking date datepicker configuration
-$('#booking_date').datepicker({
-    changeMonth: true,
-    changeYear: true,          
-    dateFormat: 'dd/mm/yy',
-    yearRange: "-0:+1",
-    minDate: 0,
-    defaultDate: +1,
-    beforeShowDay: function(date) {
-        var d = date.getDate();
-        var m = date.getMonth() + 1;
-        var closed = date.getDay();
-        var isDisabled = (closed === 0 || closed === 2) || (d === 1 && m === 5) || ( d === 1 && m === 11) || (d === 25 && m === 12);
-        return [!isDisabled];
-    }
-});
-
-
-// check if date is today and 2pm passed and lock radio to Journée if so
-var checkDate = function() 
-{
-    var today = new Date();
-    var dt = today.getDate();
-    var mt = today.getMonth()+1; //January is 0!
-    var yyt = today.getFullYear();
-    var ht = today.getHours();     
-    
-    var date = $( "#booking_date" ).datepicker( "getDate");
-    var dd = date.getDate();
-    var md = date.getMonth()+1; //January is 0!
-    var yyd = date.getFullYear();
-    
-    if(ht>=14 && dd==dt && md==mt && yyd==yyd) {
-      $('input#booking_type_0').attr('disabled', true);
-      $(':radio').val(['Demi-journée']);
-    }else {
-        $('input#booking_type_0').attr('disabled', false);
-    }
-};
-
-//call to function when page is loaded
-checkDate();
-//call to checkDate everytime the value of the booking date changes
+if 
 $(function() {
-    $('#booking_date').change(function() {   
-        checkDate();
-    });
-});
+	var progess = Number($('.progress-bar').attr('aria-valuenow'));
+	switch (progess) {
+	case 25:
+		$('#bc-home').replaceWith('<li id="bc-home"><a href="javascript:history.go(-1)">Accueil</a></li>');
 
-/********* scripts page tickets *************/
-$(function() {
-    $('select').change(function() {
-        console.log('test');
-    });
+		$('#bc-booking').attr('style', 'display');
+		$('#bc-booking').addClass('active');
+		break;
+	case 50:
+		$('#bc-booking').removeClass('active');
+		$('#bc-ticket').attr('style', 'display');
+		$('#bc-ticket').addClass('active');
+		break;
+	case 75:
+		$('#bc-ticket').removeClass('active');
+		$('#bc-review').attr('style', 'display');
+		$('#bc-review').addClass('active');
+		break;
+	case 100:
+		$('#bc-review').removeClass('active');
+		$('#bc-confirm').attr('style', 'display');
+		$('#bc-confirm').addClass('active');
+		break;
+	}
 });

@@ -4,36 +4,30 @@
 {% block title %}{{ parent() }} - Accueil{% endblock %}
     
 {% block body %}
-        {% if app.session.flashbag.peekAll|length > 0 %}
-            {% for type, messages in app.session.flashbag.all %}
-                {% for message in messages %}
-                    <div class="{{ type ? type : '' }}">
-                        <div class="alert alert-danger">
-                        {{ message }}
-                        </div>
-                    </div>
-                {% endfor %}
-            {% endfor %}
-        {% endif %}
+        
         
 
-    <div class="well col-sm-offset-2 col-sm-8">
-        <h2>Bienvenue sur le billetterie en ligne du musée du Louvre</h2>
-        <p>Cette plateforme vous permet de réserver vos tickets pour le musée du Louvre en ligne.
-        A la fin de la procédure d'achat, les informations de réservation qui seront à présenter à l'entrée du musée vous seront envoyé à l'adresse email que vous devez fournir dans les informationsde réservation.</p>
-        <p>La billetterie propose plusieurs tarifications en fonction de l'âge du visiteur:</p>
-        <ul>
-            <li>Tarif enfant (entre 4 et 12 ans): 8€</li>
-            <li>Tarif sénior (à partir de 60 ans): 12€</li>
-        </ul>
-        <p>Un tarif « réduit » de 10 € accordé dans certaines conditions (étudiant, employé du musée, d’un service du Ministère de la Culture, militaire…)</p>
-        <p><strong>Un justificatif vous sera demandé à l'entrée du musée</strong> prouvant votre droit à jouir des tarifs préférentiels ci-dessus</p>
-        <p>Le musée est fermé les dimanches, mardis et jours fériés suivants: 1er Mai, 1er Novembre et 25 Décembre. Deux types de réservations vous sont proposées: </p>
-        <ul>
-            <li>Une réservation journée (entrée libre à partir de 9h00) : tarif plein</li>
-            <li>Une réservation demi-journée (entrée uniquement à partir de 14h) : tarif -50%</li>
-        </ul>
+    <div class="well col-xs-offset-1 col-xs-10 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
+        <div class="row">
+            <div class="col-xs-12 col-sm-offset-1 col-sm-10">
+                <h2>Bienvenue sur le billetterie en ligne du musée du Louvre</h2>
+                <p>Cette plateforme vous permet de réserver vos tickets pour le musée du Louvre en ligne.
+                A la fin de la procédure d'achat, les informations de réservation qui seront à présenter à l'entrée du musée vous seront envoyé à l'adresse email que vous devez fournir dans les informationsde réservation.</p>
+                <p>La billetterie propose plusieurs tarifications en fonction de l'âge du visiteur:</p>
+                <ul>
+                    <li>Tarif enfant (entre 4 et 12 ans): 8€</li>
+                    <li>Tarif sénior (à partir de 60 ans): 12€</li>
+                </ul>
+                <p>Un tarif « réduit » de 10 € accordé dans certaines conditions (étudiant, employé du musée, d’un service du Ministère de la Culture, militaire…)</p>
+                <p><strong>Un justificatif vous sera demandé à l'entrée du musée</strong> prouvant votre droit à jouir des tarifs préférentiels ci-dessus !</p>
+                <p>Le musée est fermé les dimanches, mardis et jours fériés suivants: 1er Mai, 1er Novembre et 25 Décembre. Deux types de réservations vous sont proposées: </p>
+                <ul>
+                    <li>Une réservation journée (entrée libre à partir de 9h00) : tarif plein</li>
+                    <li>Une réservation demi-journée (entrée uniquement à partir de 14h) : tarif -50%</li>
+                </ul><br>
 
-        <a href="{{ path('louvre_booking_booking') }}"><button type="button" class="btn btn-primary btn-lg btn-block">Je réserve mes tickets</button></a>
+                <a href="{{ path('louvre_booking_booking') }}"><button type="button" class="btn btn-primary btn-lg btn-block">Je réserve mes tickets</button></a>
+            </div>
+        </div>
     </div>
 {% endblock %}

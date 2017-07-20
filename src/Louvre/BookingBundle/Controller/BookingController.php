@@ -46,11 +46,15 @@ class BookingController extends Controller
 			$day = (int) date_diff($now, $date)->format("%a");
 			$hour = (int) $now->format('h');
 			// if the date is today && after 14:00 && the ticket type chosen is Journée
-			if ($day === 0 && $hour >= 7 && $booking->getType() === 'Journée' )
+			if ($day === 0 && $hour >= 14 && $booking->getType() === 'Journée' )
 			{
 				$request->getSession()->getFlashBag()->add('warning', 'Seuls les tickets Demi-journée sont disponibles après 14h00');
 
 				return $this->redirectToRoute('louvre_booking_booking');
+			}
+
+			if ($day < 0 || ($day === 0 && $hour >= 19)) {
+				$request->getSession()->getFlashBag()->add('warning', 'Impossible de réserver pour une date antérieure !');
 			}
 
 			//Checking the amount of tickets sold for the chosen date
@@ -202,7 +206,7 @@ class BookingController extends Controller
 		  "description" => "Example charge",
 		  "source" => $token,
 		));
-		/*
+		
 		$em = $this->getDoctrine()->getManager();
 		$em->persist($booking);
 		foreach($tickets as $ticket)
@@ -214,23 +218,22 @@ class BookingController extends Controller
 		
 		$recipient = $booking->getEmail();
 		// Email to be sent once payment process is finished
-		$message = (new \Swift_Message('Louvre Confirmation commande'))
-			->setFrom('thomas.proust89@gmail.com')
-			->setTo($recipient)
-			->setBody($this->renderView(
-                // app/Resources/views/Emails/order.html.twig
-                'Emails/order.html.twig', array(
-                	'booking' => $booking,
-					'tickets' => $tickets,
-					'amount' => $amount,
-				)),
-            	'text/html'
-       		);     				
-		*/
+		$from = new \SendGrid\Email("Louvre e-billet", "e-billet@louvre.fr");
+		$subject = "Votre réservation" .$booking->getReference();
+		$to = new \SendGrid\Email($booking->getFirstName()." ". $booking->getLastName(), $recipient);
+		$content = new \SendGrid\Content("text/html", $this->render('LouvreBookingBundle:Emails:order.html.twig',array(
+			'booking'=>$booking,
+			'tickets' => $tickets,
+			)) );
+		$mail = new \SendGrid\Mail($from, $subject, $to, $content);
+		$apiKey = getenv('SENDGRID_API_KEY');
+		$sg = new \SendGrid($apiKey);
+		$response = $sg->client->mail()->send()->post($mail);
 		
 		
-		//$this->get('mailer')->send($mail);
-		$request->getSession()->getFlashBag()->add('success','Succès ! Billet envoyé par email à <strong>'. $booking->getEmail(). ' </strong>!');
+		
+		
+		$request->getSession()->getFlashBag()->add('success','Succès ! Tickets envoyés par email à <strong>'. $booking->getEmail(). ' </strong>!');
 
 		return $this->render('LouvreBookingBundle:Booking:confirm.html.twig',array(
 			'booking' => $booking,

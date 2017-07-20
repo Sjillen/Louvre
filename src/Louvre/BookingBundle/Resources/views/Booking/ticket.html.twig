@@ -11,19 +11,27 @@
 		</div>
 	</div>
 
-	<div class="well col-xs-12 col-sm-8 col-sm-offset-2">
-		<div class="bs-example">
-			<h2> Vos informations de réservation</h2>
-			<dl class="dl-horizontal">
-				<dt>Référence: </dt>
-					<dd>{{ booking.reference }}</dd>
-				<dt>Date: </dt>
-					<dd>{{ booking.date|date('d/m/Y') }}</dd>
-				<dt>Email: </dt>
-					<dd>{{ booking.email }}</dd>
-				<dt>Type de billet: <dt>
-					<dd>{{ booking.type }}</dd>
-			</dl>
+	<div class="well col-xs-12 col-sm-6 col-sm-offset-3">
+		<div class="row">
+			
+			<div class="col-xs-12 col-sm-offset-1 col-sm-10">
+				<h2> Vos informations de réservation:</h2>
+			</div>
+			<div class="col-xs-12">
+				<dl class="dl-horizontal">
+					<dt>Référence: </dt>
+						<dd>{{ booking.reference }}</dd>
+					<dt>Date: </dt>
+						<dd>{{ booking.date|date('d/m/Y') }}</dd>
+					<dt>Email: </dt>
+						<dd>{{ booking.email }}</dd>
+					<dt>Type de billet: <dt>
+						<dd id="type">{{ booking.type }}</dd>
+				</dl>
+			</div>
+			<div class="col-xs-offset-4 col-xs-2">
+				<a id="previousBookingPath" href="#"><button type="button" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-edit"></span> Editer</button></a>
+			</div>
 		</div>
 	</div>
 	<div class=" well col-xs-12 col-sm-10 col-sm-offset-1">
@@ -50,9 +58,9 @@
 					<td>{{ form_widget(ticket.age) }}</td>
 					<td>{{ form_widget(ticket.country) }}</td>
 					<td class="discount">
-						{{ form_widget(ticket.discount, {'attr': {'class': 'form-control'}}) }}
+						{{ form_widget(ticket.discount, {'attr': {'class': 'form-control','data-toggle': 'tooltip','data-placement': 'right', 'title': 'étudiant, employé du musée, d’un service du Ministère de la Culture, militaire…'}}) }}
 					</td>
-					<td class="priceDisplayed"> -- €</td>
+					<td><span class="priceDisplayed" data-toggle="tooltip" data-placement="right" title="Tout bénéficiaire de tarif préférentiel devra fournir un justificatif à l'entrée du musée">16</span> €</td>
 				</tr>
 				{% endfor %}
 				<tr>
@@ -61,19 +69,18 @@
 					<td></td>
 					<td></td>
 					<td><strong>Montant total</strong></td>
-					<td> <strong><span class="total">--</span>€</strong></td>
+					<td> <strong><span id="total">--</span>€</strong></td>
 				</tr>
 			</table>
 		</div> <!-- .table-responsive -->
-	</div>
-	
-	<div id ="saveTickets" class="col-sm-6 col-sm-offset-4">
-		<div>
-			{{ form_widget(form.save, {'attr': {'class' : 'btn btn-primary'}}) }}
-		</div>
-	</div>	  
-  {{ form_end(form) }}	
+		<div id ="saveTickets" class="col-sm-6 col-sm-offset-3">
+			<div>
+				{{ form_widget(form.save, {'label' : 'Suivant', 'attr': {'class' : 'btn btn-primary btn-lg btn-block'}}) }}
+			</div>
+		</div>	  
+	  {{ form_end(form) }}	
+	</div>	
 </div>
-
-		
 {% endblock %}
+
+
