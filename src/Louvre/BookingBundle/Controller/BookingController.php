@@ -22,13 +22,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class BookingController extends Controller
 {
 	public function indexAction() {
+
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Accueil", $this->get("router")->generate('louvre_booking_home'));
 		return $this->render('LouvreBookingBundle:Booking:index.html.twig');
 	}
 
 
 	public function bookingAction(Request $request)
 	{
-		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Accueil", $this->get("router")->generate('louvre_booking_home'))
+					->addItem("Réservation", $this->get("router")->generate('louvre_booking_booking'));
 		
 		date_default_timezone_set('Europe/Paris');
 
@@ -81,6 +86,11 @@ class BookingController extends Controller
 
 	public function ticketAction(Request $request)
 	{
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Accueil", $this->get("router")->generate('louvre_booking_home'))
+					->addItem("Réservation", $this->get("router")->generate('louvre_booking_booking'))
+					->addItem("Tickets", $this->get("router")->generate('louvre_booking_ticket'));
+
 		$billet = new Billet();
 		$booking = $request->getSession()->get('booking');
 
@@ -158,6 +168,12 @@ class BookingController extends Controller
 
 	public function recapAction(Request $request)
 	{
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Accueil", $this->get("router")->generate('louvre_booking_home'))
+					->addItem("Réservation", $this->get("router")->generate('louvre_booking_booking'))
+					->addItem("Tickets", $this->get("router")->generate('louvre_booking_ticket'))
+					->addItem("Récapitulatif", $this->get("router")->generate('louvre_booking_review'));
+
 		$session = $request->getSession();
 
 		$booking = $session->get('booking');
@@ -184,6 +200,15 @@ class BookingController extends Controller
 
 	public function confirmAction(Request $request)
 	{
+		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Accueil", $this->get("router")->generate('louvre_booking_home'))
+					->addItem("Réservation", $this->get("router")->generate('louvre_booking_booking'))
+					->addItem("Tickets", $this->get("router")->generate('louvre_booking_ticket'))
+					->addItem("Récapitulatif", $this->get("router")->generate('louvre_booking_review'))
+					->addItem("Confirmé", $this->get("router")->generate('louvre_booking_confirm'));
+
+
 		$session = $request->getSession();
 		$booking = $session->get('booking');
 		$tickets = $session->get('tickets');
@@ -203,7 +228,7 @@ class BookingController extends Controller
 		$charge = \Stripe\Charge::create(array(
 		  "amount" => $amountStripe,
 		  "currency" => "eur",
-		  "description" => "Example charge",
+		  "description" => "e-billet",
 		  "source" => $token,
 		));
 		

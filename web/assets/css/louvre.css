@@ -29,6 +29,13 @@ body {
 	margin-bottom: 10px;
 }
 
+.breadcrumb {
+	background-color: #222222;
+    color: #b7b6b6;
+    margin-bottom: 0px;
+    margin-top: 10px;
+}
+
 
 
 .title {
@@ -66,12 +73,6 @@ h3 {
 
 }
 
-#conteneurFlex {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: center;
-}
 
 
 

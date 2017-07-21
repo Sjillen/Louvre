@@ -18,7 +18,7 @@
 				<div class="col-xs-12 col-sm-offset-1 col-sm-10">
 					<h2> Vos informations de réservation:</h2>
 				</div>
-				<div class="col-xs-12">
+				<div class="col-xs-12 col-sm-offset-3 col-sm-6">
 					<dl class="dl-horizontal">
 						<dt>Référence: </dt>
 							<dd>{{ booking.reference }}</dd>
@@ -80,11 +80,11 @@
 						<script
 						  src="https://checkout.stripe.com/checkout.js" class="stripe-button"
 						  data-key="pk_test_vNhMdEktJ8nxWDjERI7xTVDY"
-						  data-amount={{ amountStripe}}
+						  data-amount={{ amountStripe }}
 						  data-label="Payer par carte"
 						  data-name="Musée du Louvre"
 						  data-description="Billetterie en ligne du musée du Louvre"
-						  data-image="{{ asset('assets/css/img/logo.jpg') }}"
+						  data-image="{{ asset('assets/css/img/blacklogo.png') }}"
 						  data-locale="auto"
 						  data-currency="eur"
 						  data-email= {{ booking.email }} >

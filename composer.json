@@ -32,12 +32,19 @@
         "symfony/symfony": "3.3.*",
         "twig/twig": "^1.0||^2.0",
         "stripe/stripe-php": "4.*",
-        "sendgrid/sendgrid": "~5.5"
+        "sendgrid/sendgrid": "~5.5",
+        "whiteoctober/breadcrumbs-bundle" :"1.2.*"
+        
+
         
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
-        "symfony/phpunit-bridge": "^3.0"
+        "symfony/phpunit-bridge": "^3.0",
+        "phpunit/phpunit": "~4.8",
+        "symfony/browser-kit": "~2.8|3.0.*",
+        "symfony/css-selector": "~2.8|3.0.*"
+        
     },
     "scripts": {
         "symfony-scripts": [
