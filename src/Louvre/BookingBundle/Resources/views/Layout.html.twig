@@ -3,43 +3,34 @@
 	<head>
 		<meta charset="utf-8">
 		<title>{% block title %}Billetterie du Louvre{% endblock %}</title>
+		<link rel="icon" href="{{ asset('assets/css/img/favicon.ico') }}">
 		<link href="{{ asset('assets/lib/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
 		<link rel="stylesheet" href="{{ asset('assets/lib/jquery-ui/jquery-ui.min.css') }}">
 		<link rel="stylesheet" href="{{ asset('assets/css/louvre.css') }}">
 	</head>
 
 	<body>
-
-
 			<div class="row">
-			
 				<nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
 					<div class="container">
 						<div class="navbar-header">
 							<a class="navbar-brand" href="{{ path('louvre_booking_home') }}"><span><img alt="Brand" src="{{ asset('assets/css/img/logo.png') }}"></span>Billetterie en ligne du musée du Louvre</a>
 						</div>
 						<div class="nav navbar-nav navbar-right">
-							<ol class="breadcrumb">
-							  <li><a href="{{ path('louvre_booking_home') }}">Accueil</a></li>
-							  <li><a href="{{ path('louvre_booking_booking') }}">Réservation</a></li>
-							  <li href="{{ path('louvre_booking_review') }}" class="active">Tickets</li>
-							  <li><a href="{{ path('louvre_booking_review') }}">Récapitulatif</a></li>
-							  <li><a href="{{ path('louvre_booking_confirm') }}">Commande confirmée !</a></li>
-							</ol>
+							{{ wo_render_breadcrumbs() }}
 						</div>
 					</div>
 				</nav>		
-				
-					
+		
 				<div id="mainBlock" class="col-xs-12 col-sm-10 col-sm-offset-1">
 					<div class="row">
 						
-						<div class="col-sm-6 col-sm-offset-3 col-xs-12">
+						<div id="alerteMessage" class="col-sm-6 col-sm-offset-3 col-xs-12">
 							{% if app.session.flashbag.peekAll|length > 0 %}
 						        {% for type, messages in app.session.flashbag.all %}
 						            {% for message in messages %}
 						                <div class="{{ type ? type : '' }}">
-						                	<div class="alert alert-success alert-dismissible" role="alert">
+						                	<div class="alert alert-{{ type }} alert-dismissible" role="alert">
 						                		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						                    	{{ message|raw }}
 						                	</div>
@@ -58,24 +49,43 @@
 				{% endblock %}
 					</div>
 				</div>
-
-				
 			
 			</div>	
-			<footer class="footer">
+			<footer class="footer col-xs-12">
 				<div class="row">
-					
-					<div class="col-sm-4">
-						<h2>Footer</h2>
-					</div>
-				</div>
+	                <div class="col-sm-4">
+	                	<br>
+	                	<a href="http://www.louvre.fr/">
+	                    <img src="{{ asset('assets/css/img/logo-louvre.jpg') }}"></a>
+	                </div>
+	                <div class="col-sm-4">
+	                	<br>
+	                    <strong>Billetterie en ligne</strong> du musée du louvre
+	                    <p>&copy;2017 Louvre - Tous droits réservés</p>
+	                </div>
+
+	                <div class="col-sm-4">  
+
+	                        <p>Site réalisé par Thomas Proust<br>
+	                        	avec le framework <strong><a href="http://symfony.com/" alt="lien symfony">Symfony</a></strong></p>
+	                        	<img src="{{ asset('assets/css/img/sf-icon.png') }}" alt="sf-icone">
+
+	                </div>
+	            </div>
 						
 			</footer>
 		<!-- jQuery -->
-    <script src="{{ asset('assets/lib/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/lib/jquery-ui/jquery-ui.min.js') }}"></script>
-    <script src="{{ asset('assets/lib/bootstrap/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('assets/js/louvre.js') }}"></script>
+	{% block javascripts %}
+		<script src="{{ asset('assets/lib/jquery/jquery.min.js') }}"></script>
+	    <script src="{{ asset('assets/lib/jquery-ui/jquery-ui.min.js') }}"></script>
+	    <script src="{{ asset('assets/lib/bootstrap/js/bootstrap.min.js') }}"></script>
+	    
+	    <script src="{{ asset('assets/js/booking.js') }}"></script>
+	    <script src="{{ asset('assets/js/tickets.js') }}"></script>
+	    <script src="{{ asset('assets/js/recap.js') }}"></script>
+	{% endblock %}
+    
+    
 	</body>
 
 

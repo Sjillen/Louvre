@@ -13,66 +13,85 @@
 <div id="recapBody">
 	<div class="row">
 		
-		<div class="well col-xs-12 col-sm-4 col-sm-offset-2">
-			<div class="bs-example">
-				<h2> Vos informations de réservation</h2>
-				<dl class="dl-horizontal">
-					<dt>Référence: </dt>
-						<dd>{{ booking.reference }}</dd>
-					<dt>Date: </dt>
-						<dd>{{ booking.date|date('d/m/Y') }}</dd>
-					<dt>Email: </dt>
-						<dd>{{ booking.email }}</dd>
-					<dt>Type de billet: <dt>
-						<dd>{{ booking.type }}</dd>
-				</dl>
+		<div class="well col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-offset-3 col-md-6">
+			<div class="row">
+				<div class="col-xs-12 col-sm-offset-1 col-sm-10">
+					<h2> Vos informations de réservation:</h2>
+				</div>
+				<div class="col-xs-offset-3 col-xs-6 col-sm-offset-2 col-sm-8 col-md-offset-1 col-md-6">
+					<dl class="dl-horizontal">
+						<dt>Référence: </dt>
+							<dd>{{ booking.reference }}</dd>
+						<dt>Date: </dt>
+							<dd>{{ booking.date|date('d/m/Y') }}</dd>
+						<dt>Email: </dt>
+							<dd>{{ booking.email }}</dd>
+						<dt>Type de billet: <dt>
+							<dd id="type">{{ booking.type }}</dd>
+					</dl>
+				</div>
 			</div>
 		</div>
-	    <div class=" well col-xs-12 col-sm-8 col-sm-offset-2">
-	    	<h2> Vos tickets</h2>
-			<div class="table-responsive">
-				<table class="table table-hover table-condensed">
-					<thead>
-						<tr>
-							<th>Nom</th>
-							<th>Prénom</th>
-							<th>Date de naissance</th>
-							<th>Pays de résidence</th>
-							<th>Réduction</th>
-							<th>Tarif</th>
-						</tr>
-					</thead>
-					{% for ticket in tickets %}
-					<tr>
-						<td>{{ ticket.lastName }}</td>
-						<td>{{ ticket.firstName }}</td>
-						<td>{{ ticket.age|date('d/m/Y') }}</td>
-						<td>{{ ticket.country }}</td>
-						<td class="discount">{{ ticket.discount }}</td>
-						<td class="priceDisplayed">{{ ticket.price }}€</td>
-					</tr>
-					{% endfor %}
-				</table>
-			</div> <!-- .table-responsive -->
-			<div class="col-xs-12 col-sm-3 col-sm-offset-9">
-				<dl class="dl-horizontal">
-					<dt>Montant Total</dt>
-						<dd>{{ amount }}€</dd>
-				</dl>
+	    <div class=" well col-xs-12 col-sm-10 col-sm-offset-1">
+	    	<div class="row">
+	    		<div class="col-xs-10">
+		    		<h2> Vos tickets</h2><br>
+		    	</div>
+
+		    	<div class="col-xs-2">
+					<a id="recapTicketPath" href="#"><button type="button" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-edit"></span> Editer</button></a>
+				</div>
+				<div class="col-xs-12">
+					<div class="table-responsive">
+						<table class="table table-hover table-condensed">
+							<thead>
+								<tr>
+									<th>Nom</th>
+									<th>Prénom</th>
+									<th>Date de naissance</th>
+									<th>Pays de résidence</th>
+									<th>Réduction</th>
+									<th>Tarif</th>
+								</tr>
+							</thead>
+							{% for ticket in tickets %}
+							<tr>
+								<td>{{ ticket.lastName }}</td>
+								<td>{{ ticket.firstName }}</td>
+								<td class="age">{{ ticket.age|date('d/m/Y') }}</td>
+								<td>{{ ticket.country }}</td>
+								<td class="discount">{{ ticket.discount }}</td>
+								<td><span class="priceTicket">{{ ticket.price }}</span> €</td>
+							</tr>
+							{% endfor %}
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td><strong>Montant total</strong></td>
+								<td> <strong>{{ amount }}€</strong></td>
+							</tr>
+						</table>
+					</div> <!-- .table-responsive -->
+				</div>
+				<div class="col-xs-offset-6 col-xs-3 col-sm-offset-8 col-sm-4">
+					<form action="/Louvre/web/app_dev.php/confirm" method="POST">
+						<script
+						  src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+						  data-key="pk_test_vNhMdEktJ8nxWDjERI7xTVDY"
+						  data-amount={{ amountStripe }}
+						  data-label="Payer par carte"
+						  data-name="Musée du Louvre"
+						  data-description="Billetterie en ligne du musée du Louvre"
+						  data-image="{{ asset('assets/css/img/blacklogo.png') }}"
+						  data-locale="auto"
+						  data-currency="eur"
+						  data-email= {{ booking.email }} >
+						</script>
+					</form>
+				</div>
 			</div>
-			<form action="/Louvre/web/app_dev.php/confirm" method="POST">
-				<script
-				  src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-				  data-key="pk_test_vNhMdEktJ8nxWDjERI7xTVDY"
-				  data-amount={{ amountStripe}}
-				  data-name="Musée du Louvre"
-				  data-description="Billetterie en ligne du musée du Louvre"
-				  data-image="{{ asset('assets/css/img/logo.jpg') }}"
-				  data-locale="auto"
-				  data-currency="eur"
-				  data-email= {{ booking.email }} >
-				</script>
-			</form>
 		</div>
 	</div>
 </div> <!-- #bodyAdmin -->	

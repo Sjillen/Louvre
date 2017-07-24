@@ -11,6 +11,7 @@
 body {
 	background-color: black;
 	padding-top: 60px;
+
 	
 }
 
@@ -28,10 +29,14 @@ body {
 	margin-bottom: 10px;
 }
 
-.progress {
-	text-align: center;
-	color: black;
+.breadcrumb {
+	background-color: #222222;
+    color: #b7b6b6;
+    margin-bottom: 0px;
+    margin-top: 10px;
 }
+
+
 
 .title {
 	text-align: center;
@@ -44,6 +49,11 @@ body {
 h1 {
 	font-size: 64px;	
 }
+
+h2 {
+	text-align: center;
+}
+
 h3 {
 	font-family: 'Montez-Regular', arial, verdana, sans-serif;
 	text-align: center;
@@ -56,33 +66,22 @@ h3 {
     text-align: center;
     background-color: #222222;
     color: #b7b6b6;
-    position: fixed;
+    padding-bottom: 15px;
     bottom: 0;
-    width: 100%;
 
 }
 
-#conteneurFlex {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: center;
-}
-
-
-.checkbox {
-	font-weight: bold;
-}
 
 th, td {
 	text-align: center;
 }
 
-.breadcrumb {
-	background-color: #222222;
-	color: #b7b6b6;
-	margin-top: 20px;
+.btn-warning:hover {
+	text-decoration: none;
 }
 
-
-
+@media all and (max-width: 991px) {
+	body {
+		padding-top: 115px;
+	}
+}

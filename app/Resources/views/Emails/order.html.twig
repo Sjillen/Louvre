@@ -1,59 +1,52 @@
 
 	
-{% block body %}
 
-<div id="recapBody">
-	<div class="row">
-		
-		<div class="well col-xs-12 col-sm-4 col-sm-offset-2">
-			<div class="bs-example">
-				<h2> Vos informations de réservation</h2>
-				<dl class="dl-horizontal">
-					<dt>Référence: </dt>
-						<dd>{{ booking.reference }}</dd>
-					<dt>Date: </dt>
-						<dd>{{ booking.date|date('d/m/Y') }}</dd>
-					<dt>Email: </dt>
-						<dd>{{ booking.email }}</dd>
-					<dt>Type de billet: <dt>
-						<dd>{{ booking.type }}</dd>
-				</dl>
-			</div>
-		</div>
-	    <div class=" well col-xs-12 col-sm-8 col-sm-offset-2">
-	    	<h2> Vos tickets</h2>
-			<div class="table-responsive">
-				<table class="table table-hover table-condensed">
-					<thead>
-						<tr>
-							<th>Nom</th>
-							<th>Prénom</th>
-							<th>Date de naissance</th>
-							<th>Pays de résidence</th>
-							<th>Réduction</th>
-							<th>Tarif</th>
-						</tr>
-					</thead>
-					{% for ticket in tickets %}
-					<tr>
-						<td>{{ ticket.lastName }}</td>
-						<td>{{ ticket.firstName }}</td>
-						<td>{{ ticket.age|date('d/m/Y') }}</td>
-						<td>{{ ticket.country }}</td>
-						<td class="discount">{{ ticket.discount }}</td>
-						<td class="priceDisplayed">{{ ticket.price }}€</td>
-					</tr>
-					{% endfor %}
-				</table>
-			</div> <!-- .table-responsive -->
-			<div class="col-xs-12 col-sm-3 col-sm-offset-9">
-				<dl class="dl-horizontal">
-					<dt>Montant Total</dt>
-						<dd>{{ amount }}€</dd>
-				</dl>
-			</div>
-		</div>
-	</div>
-</div> <!-- #bodyAdmin -->	
 
-{% endblock %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head></head>
+
+<body style="position:center;text-align:center">
+  <style></style>
+  <header>
+    <h1>Billetterie en ligne du musée du Louvre</h1><br><img id="img-header" src="https://marketing-image-production.s3.amazonaws.com/uploads/edc77da7c7afa7dbdba14d0c1e6a9de63673ab7f333632f48730ad628ca98f89fbfcdd40a16bb5718cb3f29acb3709068acf627534f4c4979e2628fea4cb49ce.png"
+      alt="img-header" style="height:auto;max-width:100%"></header>
+  <div id="mainContainer">
+    <p><strong>Félicitations !</strong> Votre réservation est maintenant complétée. Cet email contient l'ensemble des informations de vos billets..<br><em>Pour tout bénéficiaire de tarifs préférentiels, ne pas oublier de fournir un justificatif lors de votre venue.</em></p>
+    <p>Le musée du Louvre vous remercie pour avoir utilisé la billetterie en ligne et vous souhaite un agréable visite !</p>
+    <h2>Vos informations de réservation:</h2>
+    <div id="bookingContainer">
+      <dl class="dl-horizontal"><dt>Référence:</dt>
+        <dd><strong>{{ booking.reference }}</strong></dd><dt>Date:</dt>
+        <dd>{{ booking.date|date('d/m/Y') }}</dd><dt>Email:</dt>
+        <dd>{{ booking.email }}</dd><dt>Type de billet:</dt><dt></dt>
+        <dd>{{ booking.type }}</dd>
+      </dl>
+    </div>
+    <div id="ticketContainer">
+      <h2>Vos tickets</h2>{% for ticket in tickets %} {% endfor %}
+      <table>
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Tarif</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ ticket.lastName }}</td>
+            <td>{{ ticket.firstName }}</td>
+            <td>{{ ticket.price }}€</td>
+          </tr>
+        </tbody>
+      </table><em>Pour tout bénéficiaire de tarifs préférentiels, ne pas oublier de fournir un justificatif lors de votre venue.</em></div>
+  </div>
+  <footer><strong>Billetterie en ligne</strong> du musée du louvre
+    <p>©2017 Louvre - Tous droits réservés</p>
+  </footer>
+</body>
+
+</html>
+

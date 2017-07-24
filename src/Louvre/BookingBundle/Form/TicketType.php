@@ -28,6 +28,7 @@ class TicketType extends AbstractType
             ->add('lastName', TextType::class)
             ->add('age', BirthdayType::class, array(
                 'attr' => ['class' => 'ageDate'],
+                'data' => new \Datetime ('now'),
                 ))
             ->add('country', CountryType::class, array(
                 'data' => 'FR',

@@ -27,7 +27,7 @@ class BookingType extends AbstractType
                 'widget' => 'single_text',
                 'format' => 'dd/MM/yyyy',
                 'html5' => false,
-                'data' => new \Datetime('now'),
+                
                 
                 ))
             ->add('type', ChoiceType::class, array(

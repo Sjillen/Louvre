@@ -63,11 +63,22 @@ doctrine:
         auto_mapping: true
 
 #Swiftmailer Configuration
-swiftmailer:
+#swiftmailer:
     #transport: “%mailer_transport%”
-    host:      “%mailer_host%”
-    username:  “%mailer_user%”
-    port :     “%mailer_port%”
-    encryption: ~
-    password:  “%mailer_password%”
-    spool:     { type: memory }
+    #host:      “%mailer_host%”
+    #username:  “%mailer_user%”
+    #port :     “%mailer_port%”
+    #encryption: ~
+    #password:  “%mailer_password%”
+    #spool:     { type: memory }
+
+white_october_breadcrumbs:
+    separator:          ''
+    separatorClass:     'separator'
+    listId:             'wo-breadcrumbs'
+    listClass:          'breadcrumb'
+    itemClass:          ''
+    linkRel:            ''
+    locale:             ~ # defaults to null, so the default locale is used
+    translation_domain: ~ # defaults to null, so the default domain is used
+    
