@@ -6,8 +6,8 @@ use Louvre\BookingBundle\Entity\Booking;
 use Louvre\BookingBundle\Repository\BookingRepository;
 use Louvre\BookingBundle\Entity\Ticket;
 use Louvre\BookingBundle\Entity\Billet;
-use Louvre\BookingBundle\Form\BookingType;
-use Louvre\BookingBundle\Form\BilletType;
+use Louvre\BookingBundle\Form\Type\BookingType;
+use Louvre\BookingBundle\Form\Type\BilletType;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -195,9 +195,10 @@ class BookingController extends Controller
 
 		$booking = $session->get('booking');
 		$tickets = $session->get('tickets');
+		$nbTickets = $booking->getNbTickets();
 		$amount = 0;
 		//Calcul du montant total de la commande
-		for($i = 1; $i <= $booking->getNbTickets(); $i++)
+		for($i = 1; $i <= $booking->$nbTickets; $i++)
 		{
 			$amount += ($tickets[$i]->getPrice());
 		}
@@ -231,7 +232,7 @@ class BookingController extends Controller
 		$tickets = $session->get('tickets');
 		$amountStripe = $session->get('amountStripe');
 		$amount = $session->get('amount');
-		/*
+		
 		
 		// Set your secret key: remember to change this to your live secret key in production
 		// See your keys here: https://dashboard.stripe.com/account/apikeys
@@ -272,7 +273,7 @@ class BookingController extends Controller
 		$apiKey = '';
 		$sg = new \SendGrid($apiKey);
 		$response = $sg->client->mail()->send()->post($mail);
-		*/
+		
 		
 		
 		

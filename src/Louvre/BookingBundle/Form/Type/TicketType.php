@@ -1,6 +1,6 @@
 <?php
 
-namespace Louvre\BookingBundle\Form;
+namespace Louvre\BookingBundle\Form\Type;
 
 use Louvre\BookingBundle\Entity\Ticket;
 
