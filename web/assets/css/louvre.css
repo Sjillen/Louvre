@@ -69,11 +69,7 @@ h3 {
     padding-bottom: 15px;
     bottom: 0;
 
- 
-
 }
-
-
 
 
 th, td {
@@ -82,4 +78,10 @@ th, td {
 
 .btn-warning:hover {
 	text-decoration: none;
+}
+
+@media all and (max-width: 991px) {
+	body {
+		padding-top: 115px;
+	}
 }

@@ -116,6 +116,18 @@ class BookingController extends Controller
 
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 
+			//Checking the amount of tickets sold for the chosen date
+			$ticketsSold = $this->getDoctrine()->getManager()->getRepository('LouvreBookingBundle:Booking')->ticketsSold($booking->getDate());
+			$ticketsLeft = 1000 - $ticketsSold;
+
+			//If the chosen amount is exceeding
+			if ($ticketsLeft < $booking->getNbTickets()) {
+				$request->getSession()->getFlashBag()->add('error', 'Désolé, le nombre maximum de tickets réservés a été atteint pour ce jour. Nombre de place restantes pour cette date: '. $ticketsLeft . ' tickets.' );
+
+				return $this->redirectToRoute('louvre_booking_booking');
+			}
+
+
 			$request->getSession()->set('tickets', $tickets);
 			$tickets = $request->getSession()->get('tickets');
 			
@@ -130,27 +142,32 @@ class BookingController extends Controller
 				$age = (int) $diff->format("%a");
 				$age /= 365.25;
 
-				
+				$price = 16;
 				if ($age < 4)
 				{
-					$tickets[$i]->setPrice(0);
+					$price = 0;
 				}
 				elseif ($age >= 4 && $age <= 12 ) 
 				{
-					$tickets[$i]->setPrice(8);
+					$price = 8;
 				}
 				elseif ($age >= 60) 
 				{
-					$tickets[$i]->setPrice(12);
+					$price = 12;
 				}
 				elseif($tickets[$i]->getDiscount())
 				{
-					$tickets[$i]->setPrice(10);
+					$price = 10;
 				}
 				else
 				{
-					$tickets[$i]->setPrice(16);
+					$price = 16;
 				}
+
+				$price = $booking->getType("Demi-journée")? $price/2 : $price;
+				$tickets[$i]->setPrice($price);
+
+
 				
 			}			
 
@@ -214,7 +231,7 @@ class BookingController extends Controller
 		$tickets = $session->get('tickets');
 		$amountStripe = $session->get('amountStripe');
 		$amount = $session->get('amount');
-		
+		/*
 		
 		// Set your secret key: remember to change this to your live secret key in production
 		// See your keys here: https://dashboard.stripe.com/account/apikeys
@@ -249,12 +266,13 @@ class BookingController extends Controller
 		$content = new \SendGrid\Content("text/html", $this->render('LouvreBookingBundle:Emails:order.html.twig',array(
 			'booking'=>$booking,
 			'tickets' => $tickets,
+			'amount' => $amount
 			)) );
 		$mail = new \SendGrid\Mail($from, $subject, $to, $content);
-		$apiKey = getenv('SENDGRID_API_KEY');
+		$apiKey = '';
 		$sg = new \SendGrid($apiKey);
 		$response = $sg->client->mail()->send()->post($mail);
-		
+		*/
 		
 		
 		
