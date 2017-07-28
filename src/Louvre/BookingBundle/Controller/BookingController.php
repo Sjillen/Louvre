@@ -165,7 +165,7 @@ class BookingController extends Controller
 					$price = 16;
 				}
 
-				$price = $booking->getType("Demi-journée")? $price/2 : $price;
+				$price = $booking->getType()==="Demi-journée"? $price/2 : $price;
 				$tickets[$i]->setPrice($price);
 
 
@@ -199,7 +199,7 @@ class BookingController extends Controller
 		$nbTickets = $booking->getNbTickets();
 		$amount = 0;
 		//Calcul du montant total de la commande
-		for($i = 1; $i <= $booking->$nbTickets; $i++)
+		for($i = 1; $i <= $nbTickets; $i++)
 		{
 			$amount += ($tickets[$i]->getPrice());
 		}
@@ -241,7 +241,7 @@ class BookingController extends Controller
 
 		// Token is created using Stripe.js or Checkout!
 		// Get the payment token submitted by the form:
-		$token = $_POST['stripeToken'];
+		$token = $request->get('stripeToken');
 
 		// Charge the user's card:
 		$charge = \Stripe\Charge::create(array(
