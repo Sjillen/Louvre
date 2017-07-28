@@ -60,6 +60,7 @@ class BookingController extends Controller
 
 			if ($day < 0 || ($day === 0 && $hour >= 19)) {
 				$request->getSession()->getFlashBag()->add('warning', 'Impossible de réserver pour une date antérieure !');
+				return $this->redirectToRoute('louvre_booking_booking');
 			}
 
 			//Checking the amount of tickets sold for the chosen date
