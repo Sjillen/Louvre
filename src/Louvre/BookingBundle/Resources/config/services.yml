@@ -1,4 +1,9 @@
 services:
-#    louvre_booking.example:
-#        class: Louvre\BookingBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    louvre_booking.priceChecker:
+        class: Louvre\BookingBundle\BookingManager\LouvrePriceChecker
+
+    louvre_booking.dateChecker:
+        class: Louvre\BookingBundle\BookingManager\LouvreDateChecker
+
+    louvre_booking.typeChecker:
+        class: Louvre\BookingBundle\BookingManager\LouvreTypeChecker

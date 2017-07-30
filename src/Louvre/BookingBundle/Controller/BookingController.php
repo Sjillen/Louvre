@@ -21,6 +21,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class BookingController extends Controller
 {
+	
+
 	public function indexAction() {
 
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
@@ -31,6 +33,7 @@ class BookingController extends Controller
 
 	public function bookingAction(Request $request)
 	{
+		
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Accueil", $this->get("router")->generate('louvre_booking_home'))
 					->addItem("Réservation", $this->get("router")->generate('louvre_booking_booking'));
@@ -39,29 +42,49 @@ class BookingController extends Controller
 
 		$session = $request->getSession();
 
-		$booking = new Booking();
+		//services
+		$dateChecker = $this->container->get('louvre_booking.dateChecker');
+		$typeChecker = $this->container->get('louvre_booking.typeChecker');
 
+		$booking = new Booking();
 		$form = $this->createForm(BookingType::class, $booking);
+
 
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) 
 		{
 			
-			$now = new \DateTime('now');
 			$date = $booking->getDate();
-			$day = (int) date_diff($now, $date)->format("%a");
-			$hour = (int) $now->format('h');
-			// if the date is today && after 14:00 && the ticket type chosen is Journée
-			if ($day === 0 && $hour >= 14 && $booking->getType() === 'Journée' )
+			
+			//Check if selected date is not a day off
+			$dayOff = $dateChecker->checkDayOff($date);
+			if ($dayOff)
+			{
+				$request->getSession()->getFlashBag()->add('warning', 'Le musée est fermé les dimanches et les mardis, ainsi que les 1er mai, 1er Novembre et 25 Décembre. Merci de sélectionner une autre date.');
+
+				return $this->redirectToRoute('louvre_booking_booking');
+			}
+
+			//Check if selected date is valid (not passed)
+			$invalidDate = $dateChecker->checkValidDate($date);
+			
+			if ($invalidDate) {
+				$request->getSession()->getFlashBag()->add('warning', 'Désolé les réservations ne sont plus disponibles pour cette date !');
+				return $this->redirectToRoute('louvre_booking_booking');
+			}
+
+
+			$type = $booking->getType();
+			//Check that bookingType is not set to Journee if it is passed 2pm today
+			$errorType = $typeChecker->checkType($date, $type);
+
+			if ($errorType)
 			{
 				$request->getSession()->getFlashBag()->add('warning', 'Seuls les tickets Demi-journée sont disponibles après 14h00');
 
 				return $this->redirectToRoute('louvre_booking_booking');
 			}
 
-			if ($day < 0 || ($day === 0 && $hour >= 19)) {
-				$request->getSession()->getFlashBag()->add('warning', 'Impossible de réserver pour une date antérieure !');
-				return $this->redirectToRoute('louvre_booking_booking');
-			}
+			
 
 			//Checking the amount of tickets sold for the chosen date
 			$ticketsSold = $this->getDoctrine()->getManager()->getRepository('LouvreBookingBundle:Booking')->ticketsSold($booking->getDate());
@@ -76,7 +99,7 @@ class BookingController extends Controller
 
 			// Saving the object in session
 			$session->set('booking', $booking);
-			return $this->redirectToRoute('louvre_booking_ticket');
+			//return $this->redirectToRoute('louvre_booking_ticket');
 
 		}
 
@@ -98,7 +121,7 @@ class BookingController extends Controller
 		
 
 		$nbTickets = $booking->getNbTickets();
-
+		$type = $booking->getType();
 		$reference = $booking->getReference();
 
 		
@@ -132,44 +155,15 @@ class BookingController extends Controller
 			$request->getSession()->set('tickets', $tickets);
 			$tickets = $request->getSession()->get('tickets');
 			
-
-			$date1 = new \Datetime('now');
+			//Service that will set price accordingly to specified options
+			$priceChecker = $this->container->get('louvre_booking.priceChecker');
 
 			for ($i = 1; $i <= $nbTickets; $i++)
 			{
       			$birthdate = $tickets[$i]->getAge();
-
-				$diff = date_diff($birthdate, $date1);
-				$age = (int) $diff->format("%a");
-				$age /= 365.25;
-
-				$price = 16;
-				if ($age < 4)
-				{
-					$price = 0;
-				}
-				elseif ($age >= 4 && $age <= 12 ) 
-				{
-					$price = 8;
-				}
-				elseif ($age >= 60) 
-				{
-					$price = 12;
-				}
-				elseif($tickets[$i]->getDiscount())
-				{
-					$price = 10;
-				}
-				else
-				{
-					$price = 16;
-				}
-
-				$price = $booking->getType()==="Demi-journée"? $price/2 : $price;
-				$tickets[$i]->setPrice($price);
-
-
-				
+      			$discount = $tickets[$i]->getDiscount();
+      			$price = $priceChecker->checkPrice($birthdate, $type, $discount);
+				$tickets[$i]->setPrice($price);		
 			}			
 
 			return $this->redirectToRoute('louvre_booking_review');
