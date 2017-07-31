@@ -92,14 +92,14 @@ class BookingController extends Controller
 
 			//If the chosen amount is exceeding
 			if ($ticketsLeft < $booking->getNbTickets()) {
-				$request->getSession()->getFlashBag()->add('error', 'Désolé, le nombre maximum de tickets réservés a été atteint pour ce jour. Nombre de place restantes pour cette date: '. $ticketsLeft . ' tickets.' );
+				$request->getSession()->getFlashBag()->add('warning', 'Désolé, le nombre maximum de tickets réservés a été atteint pour ce jour. Nombre de place restantes pour cette date: '. $ticketsLeft . ' tickets.' );
 
 				return $this->redirectToRoute('louvre_booking_booking');
 			}
 
 			// Saving the object in session
 			$session->set('booking', $booking);
-			//return $this->redirectToRoute('louvre_booking_ticket');
+			return $this->redirectToRoute('louvre_booking_ticket');
 
 		}
 
@@ -146,7 +146,7 @@ class BookingController extends Controller
 
 			//If the chosen amount is exceeding
 			if ($ticketsLeft < $booking->getNbTickets()) {
-				$request->getSession()->getFlashBag()->add('error', 'Désolé, le nombre maximum de tickets réservés a été atteint pour ce jour. Nombre de place restantes pour cette date: '. $ticketsLeft . ' tickets.' );
+				$request->getSession()->getFlashBag()->add('danger', 'Désolé, le nombre maximum de tickets réservés a été atteint pour ce jour. Nombre de place restantes pour cette date: '. $ticketsLeft . ' tickets.' );
 
 				return $this->redirectToRoute('louvre_booking_booking');
 			}
@@ -154,7 +154,7 @@ class BookingController extends Controller
 
 			$request->getSession()->set('tickets', $tickets);
 			$tickets = $request->getSession()->get('tickets');
-			
+			$prices = [];
 			//Service that will set price accordingly to specified options
 			$priceChecker = $this->container->get('louvre_booking.priceChecker');
 
@@ -163,8 +163,22 @@ class BookingController extends Controller
       			$birthdate = $tickets[$i]->getAge();
       			$discount = $tickets[$i]->getDiscount();
       			$price = $priceChecker->checkPrice($birthdate, $type, $discount);
-				$tickets[$i]->setPrice($price);		
-			}			
+				$tickets[$i]->setPrice($price);
+				$prices[$i] = $price;		
+			}
+
+			//Check that the amount is not equal to 0
+			$amount = $priceChecker->checkAmount($prices);
+			if (!$amount)// if amount = 0, error
+			{
+				$request->getSession()->getFlashBag()->add('danger', 'Erreur, les enfants de moins de 3ans doivent être accompagnés.');
+
+				return $this->redirectToRoute('louvre_booking_ticket');
+			}else // if amount > 0, save data in session 
+			{
+				$request->getSession()->set('amount', $amount);
+			}
+
 
 			return $this->redirectToRoute('louvre_booking_review');
 
@@ -190,15 +204,8 @@ class BookingController extends Controller
 
 		$booking = $session->get('booking');
 		$tickets = $session->get('tickets');
-		$nbTickets = $booking->getNbTickets();
-		$amount = 0;
-		//Calcul du montant total de la commande
-		for($i = 1; $i <= $nbTickets; $i++)
-		{
-			$amount += ($tickets[$i]->getPrice());
-		}
+		$amount = $session->get('amount');
 		$amountStripe = $amount*100;
-		$session->set('amount', $amount);
 		$session->set('amountStripe', $amountStripe);
 		
 		return $this->render('LouvreBookingBundle:Booking:recap.html.twig', array(

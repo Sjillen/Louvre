@@ -123,4 +123,19 @@ class BookingManagerTest extends TestCase
 		$this->assertEquals(6, $price);
 
 	}
+
+	public function testAmount()
+	{
+		$ticket1 = new Ticket();
+		$ticket1->setPrice(0);
+		$ticket2 = new Ticket();
+		$ticket2->setPRice(0);
+		$prices[0] = $ticket1->getPrice();
+		$prices[1] = $ticket2->getPrice();
+
+		$priceChecker = new LouvrePriceChecker();
+		$amount = $priceChecker->checkAmount($prices);
+
+		$this->assertFalse($amount);
+	}
 }

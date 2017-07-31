@@ -42,4 +42,21 @@ class LouvrePriceChecker
 
 		return $price;
 	}
+
+	public function checkAmount($prices)
+	{
+		$amount = 0;
+		foreach ($prices as $price)
+		{
+			$amount += $price;
+		}
+
+		if ($amount > 0)
+		{
+			return $amount;
+		}else {
+			return false;
+		}
+
+	}
 }
