@@ -11,7 +11,7 @@ use Louvre\BookingBundle\Entity\Ticket;
 
 class BookingManagerTest extends TestCase
 {
-	
+
 
 	/**
 	 *test validity of passed date
@@ -56,7 +56,7 @@ class BookingManagerTest extends TestCase
 		$dateChecker = new LouvreDateChecker();
 		$dayOff = $dateChecker->checkDayOff($date);
 
-		$this->assertTrue($dayOff);		
+		$this->assertTrue($dayOff);
 	}
 
 	/**
@@ -68,11 +68,11 @@ class BookingManagerTest extends TestCase
 	 */
 	public function testType()
 	{
-		
+
 		$booking = new Booking();
 		$booking->setType("Journée");
 		$type = $booking->getType();
-		$booking->setDate(new \Datetime('now')); 
+		$booking->setDate(new \Datetime('now'));
 		$date = $booking->getDate();
 		$typeChecker = new LouvreTypeChecker();
 		$errorType = $typeChecker->checkType($date, $type);
@@ -104,7 +104,7 @@ class BookingManagerTest extends TestCase
 	 * test price setting
 	 *
 	 * according to type of booking and age of ticket holder
-	 * 
+	 *
 	 */
 	public function testAgeTypePrice()
 	{
@@ -114,7 +114,7 @@ class BookingManagerTest extends TestCase
 
 		$ticket = new Ticket();
 		$ticket->setDiscount(false); // No discount
-		$discount = $ticket->getDiscount(); 
+		$discount = $ticket->getDiscount();
 		$ticket->setAge(new \Datetime('08/05/1950')); // over 60 so senior discount is applied
 		$birthdate = $ticket->getAge();
 		$priceChecker = new LouvrePriceChecker();
@@ -129,7 +129,7 @@ class BookingManagerTest extends TestCase
 		$ticket1 = new Ticket();
 		$ticket1->setPrice(0);
 		$ticket2 = new Ticket();
-		$ticket2->setPRice(0);
+		$ticket2->setPrice(0);
 		$prices[0] = $ticket1->getPrice();
 		$prices[1] = $ticket2->getPrice();
 
